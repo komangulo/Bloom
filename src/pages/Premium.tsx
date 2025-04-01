@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -7,7 +6,6 @@ import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from "@/components/ui/use-toast";
 
-// Add declaration for Stripe element
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -35,7 +33,6 @@ const Premium = () => {
   ];
 
   useEffect(() => {
-    // Load Stripe Buy Button script
     const script = document.createElement('script');
     script.src = 'https://js.stripe.com/v3/buy-button.js';
     script.async = true;
@@ -48,11 +45,9 @@ const Premium = () => {
 
   const handleSubscribe = () => {
     if (selectedSubscription === 'yearly') {
-      // For yearly subscription, show the Stripe Buy Button
       if (stripeBuyButtonRef.current) {
         stripeBuyButtonRef.current.style.display = 'block';
         
-        // This will trigger a click on the Stripe Buy Button
         const stripeBuyButton = stripeBuyButtonRef.current.querySelector('stripe-buy-button');
         if (stripeBuyButton) {
           const shadowRoot = (stripeBuyButton as any).shadowRoot;
@@ -65,7 +60,6 @@ const Premium = () => {
         }
       }
     } else {
-      // Start free trial
       toast({
         title: "Free trial activated",
         description: "You now have access to Bloom for 1 day",
@@ -76,7 +70,6 @@ const Premium = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      {/* Back button */}
       <div className="mb-6">
         <Button 
           variant="ghost" 
@@ -162,7 +155,6 @@ const Premium = () => {
               </Button>
             </div>
 
-            {/* Hidden Stripe Buy Button */}
             <div id="stripe-buy-button-container" ref={stripeBuyButtonRef} style={{ display: 'none' }}>
               <stripe-buy-button
                 buy-button-id="buy_btn_1R8zRrG00wk3P9SCCcDfxUmZ"
