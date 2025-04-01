@@ -1,17 +1,11 @@
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Check, Lock, ArrowLeft } from 'lucide-react';
 import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from "@/components/ui/use-toast";
-
-declare global {
-  interface Window {
-    Stripe?: any;
-  }
-}
 
 const Premium = () => {
   const { isSignedIn, user } = useUser();
@@ -27,35 +21,36 @@ const Premium = () => {
     'All premium features',
   ];
 
+  useEffect(() => {
+    // Load Stripe Buy Button script
+    const script = document.createElement('script');
+    script.src = 'https://js.stripe.com/v3/buy-button.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   const handleSubscribe = () => {
     if (selectedSubscription === 'yearly') {
-      // Open Stripe checkout
-      if (window.Stripe) {
-        const stripe = window.Stripe('pk_live_51R8Ra8G00wk3P9SC1w03cKVss1csqUGbp2i51uh6KBYRSEjUslwMtrNEI749D8CF0eGETxsdTLPCic7iPaeuWnIs00kAHDDva5');
-        stripe.redirectToCheckout({
-          lineItems: [{
-            price: 'price_1R8zRrG00wk3P9SCCcDfxUmZ',
-            quantity: 1
-          }],
-          mode: 'subscription',
-          successUrl: window.location.origin + '/dashboard',
-          cancelUrl: window.location.origin + '/premium',
-        })
-        .then((result: any) => {
-          if (result.error) {
-            toast({
-              title: "Payment failed",
-              description: result.error.message,
-              variant: "destructive",
-            });
+      // For yearly subscription, show the Stripe Buy Button
+      const buyButtonContainer = document.getElementById('stripe-buy-button-container');
+      if (buyButtonContainer) {
+        buyButtonContainer.style.display = 'block';
+        
+        // This will trigger a click on the Stripe Buy Button
+        const stripeBuyButton = document.querySelector('stripe-buy-button');
+        if (stripeBuyButton) {
+          const shadowRoot = stripeBuyButton.shadowRoot;
+          if (shadowRoot) {
+            const buyButton = shadowRoot.querySelector('button');
+            if (buyButton) {
+              buyButton.click();
+            }
           }
-        });
-      } else {
-        toast({
-          title: "Stripe not loaded",
-          description: "Please try again later",
-          variant: "destructive",
-        });
+        }
       }
     } else {
       // Start free trial
@@ -66,18 +61,6 @@ const Premium = () => {
       navigate('/dashboard');
     }
   };
-  
-  // Add Stripe script dynamically
-  useState(() => {
-    const stripeScript = document.createElement('script');
-    stripeScript.src = "https://js.stripe.com/v3/";
-    stripeScript.async = true;
-    document.body.appendChild(stripeScript);
-    
-    return () => {
-      document.body.removeChild(stripeScript);
-    };
-  });
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -165,6 +148,15 @@ const Premium = () => {
               >
                 Subscribe Now
               </Button>
+            </div>
+
+            {/* Hidden Stripe Buy Button */}
+            <div id="stripe-buy-button-container" style={{ display: 'none' }}>
+              <stripe-buy-button
+                buy-button-id="buy_btn_1R8zRrG00wk3P9SCCcDfxUmZ"
+                publishable-key="pk_live_51R8Ra8G00wk3P9SC1w03cKVss1csqUGbp2i51uh6KBYRSEjUslwMtrNEI749D8CF0eGETxsdTLPCic7iPaeuWnIs00kAHDDva5"
+              >
+              </stripe-buy-button>
             </div>
           </div>
         </div>
