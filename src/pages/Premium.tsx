@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Check, Lock, ArrowLeft } from 'lucide-react';
@@ -7,11 +7,24 @@ import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from "@/components/ui/use-toast";
 
+// Add declaration for Stripe element
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'stripe-buy-button': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement> & {
+        'buy-button-id': string;
+        'publishable-key': string;
+      };
+    }
+  }
+}
+
 const Premium = () => {
   const { isSignedIn, user } = useUser();
   const [selectedSubscription, setSelectedSubscription] = useState<'yearly' | 'trial'>('yearly');
   const { toast } = useToast();
   const navigate = useNavigate();
+  const stripeBuyButtonRef = useRef<HTMLDivElement>(null);
 
   const subscriptionBenefits = [
     'Full access to the Bloom app',
@@ -36,14 +49,13 @@ const Premium = () => {
   const handleSubscribe = () => {
     if (selectedSubscription === 'yearly') {
       // For yearly subscription, show the Stripe Buy Button
-      const buyButtonContainer = document.getElementById('stripe-buy-button-container');
-      if (buyButtonContainer) {
-        buyButtonContainer.style.display = 'block';
+      if (stripeBuyButtonRef.current) {
+        stripeBuyButtonRef.current.style.display = 'block';
         
         // This will trigger a click on the Stripe Buy Button
-        const stripeBuyButton = document.querySelector('stripe-buy-button');
+        const stripeBuyButton = stripeBuyButtonRef.current.querySelector('stripe-buy-button');
         if (stripeBuyButton) {
-          const shadowRoot = stripeBuyButton.shadowRoot;
+          const shadowRoot = (stripeBuyButton as any).shadowRoot;
           if (shadowRoot) {
             const buyButton = shadowRoot.querySelector('button');
             if (buyButton) {
@@ -151,7 +163,7 @@ const Premium = () => {
             </div>
 
             {/* Hidden Stripe Buy Button */}
-            <div id="stripe-buy-button-container" style={{ display: 'none' }}>
+            <div id="stripe-buy-button-container" ref={stripeBuyButtonRef} style={{ display: 'none' }}>
               <stripe-buy-button
                 buy-button-id="buy_btn_1R8zRrG00wk3P9SCCcDfxUmZ"
                 publishable-key="pk_live_51R8Ra8G00wk3P9SC1w03cKVss1csqUGbp2i51uh6KBYRSEjUslwMtrNEI749D8CF0eGETxsdTLPCic7iPaeuWnIs00kAHDDva5"
