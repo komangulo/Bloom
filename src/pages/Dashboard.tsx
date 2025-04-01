@@ -5,6 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Calendar as CalendarIcon, HeartPulse, LineChart, Clock, Bell, Settings } from 'lucide-react';
 import { useUser } from '@clerk/clerk-react';
 import { Link } from 'react-router-dom';
+import { LogSymptomsModal } from '@/components/LogSymptomsModal';
+import { HealthAnalysis } from '@/components/HealthAnalysis';
+import { NotificationsModal } from '@/components/NotificationsModal';
+import { SettingsModal } from '@/components/SettingsModal';
 
 const Dashboard = () => {
   const { user } = useUser();
@@ -21,6 +25,12 @@ const Dashboard = () => {
     { id: 3, name: "Bloating", date: "3 days ago" }
   ];
 
+  // Modal states
+  const [logSymptomsOpen, setLogSymptomsOpen] = useState(false);
+  const [healthAnalysisOpen, setHealthAnalysisOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
@@ -29,11 +39,11 @@ const Dashboard = () => {
           <p className="text-gray-600 dark:text-gray-300">Here's your health dashboard</p>
         </div>
         <div className="mt-4 md:mt-0">
-          <Button variant="outline" className="mr-2">
+          <Button variant="outline" className="mr-2" onClick={() => setNotificationsOpen(true)}>
             <Bell className="mr-2 h-4 w-4" />
             Notifications
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => setSettingsOpen(true)}>
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </Button>
@@ -93,7 +103,7 @@ const Dashboard = () => {
             </ul>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" onClick={() => setLogSymptomsOpen(true)}>
               <Clock className="mr-2 h-4 w-4" />
               Log New Symptoms
             </Button>
@@ -114,7 +124,9 @@ const Dashboard = () => {
             </div>
           </CardContent>
           <CardFooter>
-            <Button variant="outline" className="w-full">View Detailed Analysis</Button>
+            <Button variant="outline" className="w-full" onClick={() => setHealthAnalysisOpen(true)}>
+              View Detailed Analysis
+            </Button>
           </CardFooter>
         </Card>
       </div>
@@ -134,6 +146,12 @@ const Dashboard = () => {
           </Link>
         </div>
       </div>
+
+      {/* Modals */}
+      <LogSymptomsModal open={logSymptomsOpen} onOpenChange={setLogSymptomsOpen} />
+      <HealthAnalysis open={healthAnalysisOpen} onOpenChange={setHealthAnalysisOpen} />
+      <NotificationsModal open={notificationsOpen} onOpenChange={setNotificationsOpen} />
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </div>
   );
 };
