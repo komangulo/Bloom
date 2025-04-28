@@ -16,14 +16,27 @@ const SignInPage = () => {
         </Link>
         <div className="flex items-center gap-4">
           <Link to="/signup">
-            <button className="bg-bloom-500 hover:bg-bloom-600 text-white px-6 py-2 rounded-full font-medium">
+            <button className="bg-[#EE45C0] hover:bg-[#d93aaf] text-white px-6 py-2 rounded-full font-medium transition-colors">
               Get Started
             </button>
           </Link>
         </div>
       </header>
-      <div className="flex-1 flex items-center justify-center p-4">
-        <SignIn routing="path" path="/signin" redirectUrl="/dashboard" />
+      <div className="flex-1 flex items-center justify-center p-4 bg-gray-50">
+        <div className="w-full max-w-md">
+          <SignIn 
+            appearance={{
+              elements: {
+                formButtonPrimary: 
+                  "bg-[#EE45C0] hover:bg-[#d93aaf] text-white",
+                card: "border-0 shadow-xl",
+              }
+            }}
+            routing="path" 
+            path="/signin" 
+            redirectUrl="/dashboard"
+          />
+        </div>
       </div>
     </div>
   );

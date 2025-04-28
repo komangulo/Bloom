@@ -20,8 +20,21 @@ const SignUpPage = () => {
           </Link>
         </div>
       </header>
-      <div className="flex-1 flex items-center justify-center p-4">
-        <SignUp routing="path" path="/signup" redirectUrl="/dashboard" />
+      <div className="flex-1 flex items-center justify-center p-4 bg-gray-50">
+        <div className="w-full max-w-md">
+          <SignUp 
+            appearance={{
+              elements: {
+                formButtonPrimary: 
+                  "bg-[#EE45C0] hover:bg-[#d93aaf] text-white",
+                card: "border-0 shadow-xl",
+              }
+            }}
+            routing="path" 
+            path="/signup" 
+            redirectUrl="/dashboard"
+          />
+        </div>
       </div>
     </div>
   );
