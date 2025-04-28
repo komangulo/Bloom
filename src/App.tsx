@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -10,9 +9,9 @@ import Index from "./pages/Index";
 import Tracker from "./pages/Tracker";
 import Premium from "./pages/Premium";
 import NotFound from "./pages/NotFound";
-import { SignIn, SignUp } from "@clerk/clerk-react";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 // Products pages
 import TrackingCycle from "./pages/products/TrackingCycle";
@@ -43,48 +42,57 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   return (
     <BrowserRouter>
-      <Navbar />
-      <div className="min-h-screen">
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/premium" element={<Premium />} />
-          
-          {/* Authentication Routes */}
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-          
-          {/* Dashboard Route */}
-          <Route path="/dashboard" element={<Dashboard />} />
+      <Routes>
+        {/* Auth Routes */}
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        
+        {/* Main Routes with Navbar and Footer */}
+        <Route
+          path="*"
+          element={
+            <>
+              <Navbar />
+              <div className="min-h-screen">
+                <Routes>
+                  <Route path="/" element={<Index />} />
+                  <Route path="/premium" element={<Premium />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/tracker" element={<Tracker />} />
+                  
+                  {/* Products Pages */}
+                  <Route path="/products/tracking-cycle" element={<TrackingCycle />} />
+                  <Route path="/products/getting-pregnant" element={<GettingPregnant />} />
+                  <Route path="/products/pregnancy" element={<Pregnancy />} />
+                  <Route path="/products/help-center" element={<HelpCenter />} />
+                  <Route path="/products/flo-for-partners" element={<FloForPartners />} />
+                  <Route path="/products/anonymous-mode" element={<AnonymousMode />} />
+                  <Route path="/products/app-reviews" element={<FloAppReviews />} />
+                  <Route path="/products/premium" element={<FloPreview />} />
+                  <Route path="/products/secret-chats" element={<SecretChats />} />
+                  <Route path="/products/symptom-checker" element={<SymptomChecker />} />
 
-          {/* Products Pages */}
-          <Route path="/products/tracking-cycle" element={<TrackingCycle />} />
-          <Route path="/products/getting-pregnant" element={<GettingPregnant />} />
-          <Route path="/products/pregnancy" element={<Pregnancy />} />
-          <Route path="/products/help-center" element={<HelpCenter />} />
-          <Route path="/products/flo-for-partners" element={<FloForPartners />} />
-          <Route path="/products/anonymous-mode" element={<AnonymousMode />} />
-          <Route path="/products/app-reviews" element={<FloAppReviews />} />
-          <Route path="/products/premium" element={<FloPreview />} />
-          <Route path="/products/secret-chats" element={<SecretChats />} />
-          <Route path="/products/symptom-checker" element={<SymptomChecker />} />
+                  {/* Calculator Pages */}
+                  <Route path="/calculators/ovulation" element={<OvulationCalculator />} />
+                  <Route path="/calculators/hcg" element={<HcgCalculator />} />
+                  <Route path="/calculators/pregnancy-test" element={<PregnancyTestCalculator />} />
+                  <Route path="/calculators/menstrual-cycle" element={<MenstrualCycleCalculator />} />
+                  <Route path="/calculators/period" element={<PeriodCalculator />} />
+                  <Route path="/calculators/implantation" element={<ImplantationCalculator />} />
+                  <Route path="/calculators/pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
+                  <Route path="/calculators/pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
+                  <Route path="/calculators/ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
+                  <Route path="/calculators/due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
 
-          {/* Calculator Pages */}
-          <Route path="/calculators/ovulation" element={<OvulationCalculator />} />
-          <Route path="/calculators/hcg" element={<HcgCalculator />} />
-          <Route path="/calculators/pregnancy-test" element={<PregnancyTestCalculator />} />
-          <Route path="/calculators/menstrual-cycle" element={<MenstrualCycleCalculator />} />
-          <Route path="/calculators/period" element={<PeriodCalculator />} />
-          <Route path="/calculators/implantation" element={<ImplantationCalculator />} />
-          <Route path="/calculators/pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
-          <Route path="/calculators/pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
-          <Route path="/calculators/ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
-          <Route path="/calculators/due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
-
-          {/* Catch-all Route */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-      <Footer />
+                  {/* Catch-all Route */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </div>
+              <Footer />
+            </>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
