@@ -1,6 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { useUser, RedirectToSignIn } from '@clerk/clerk-react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useUserPremiumStatus } from '@/lib/hooks/useUserPremiumStatus';
 import { Loader2 } from 'lucide-react';
 
@@ -13,12 +13,23 @@ const ProtectedRoute = ({ children, requirePremium = true }: ProtectedRouteProps
   const { isSignedIn, isLoaded: isUserLoaded } = useUser();
   const { isPremium, isLoading: isPremiumLoading } = useUserPremiumStatus();
   const location = useLocation();
+  const navigate = useNavigate();
   const [isClient, setIsClient] = useState(false);
   
   // Evitar hidratación incorrecta
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  // Efecto para manejar la redirección después de la autenticación
+  useEffect(() => {
+    if (isClient && isUserLoaded && !isSignedIn) {
+      // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+      // Clerk manejará la redirección de vuelta después del inicio de sesión
+      const redirectUrl = `${window.location.pathname}${window.location.search}`;
+      navigate(`/signin?redirect_url=${encodeURIComponent(redirectUrl)}`);
+    }
+  }, [isClient, isUserLoaded, isSignedIn, navigate]);
 
   // Mostrar un indicador de carga mientras se verifica la autenticación
   if (!isClient || !isUserLoaded || isPremiumLoading) {
@@ -33,10 +44,8 @@ const ProtectedRoute = ({ children, requirePremium = true }: ProtectedRouteProps
   }
   
   // Si el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
-  // con la ruta actual como parámetro de retorno
   if (!isSignedIn) {
-    const currentPath = location.pathname + location.search;
-    return <RedirectToSignIn afterSignInUrl={currentPath} />;
+    return <Navigate to="/signin" state={{ from: location }} replace />;
   }
 
   // Si se requiere premium y el usuario no lo tiene, redirigir a la página de premium

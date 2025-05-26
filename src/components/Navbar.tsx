@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Calendar, User, Settings, Heart, BookOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import {
   NavigationMenu,
@@ -16,6 +16,18 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
+  const navigate = useNavigate();
+
+  // Función para manejar la navegación a rutas protegidas
+  const handleProtectedNavigation = (path: string) => {
+    if (!isSignedIn) {
+      // Si el usuario no está autenticado, redirigir a signin con la ruta de retorno
+      window.location.href = `/signin?redirect_url=${encodeURIComponent(path)}`;
+    } else {
+      // Si está autenticado, navegar normalmente
+      navigate(path);
+    }
+  };
 
   return (
     <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-border sticky top-0 z-40">
@@ -38,10 +50,13 @@ export function Navbar() {
                 Home
               </Link>
               
-              <Link to="/tracker" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
+              <button 
+                onClick={() => handleProtectedNavigation('/tracker')} 
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
+              >
                 <Calendar className="h-4 w-4 mr-1" />
                 Tracker
-              </Link>
+              </button>
               
               <NavigationMenu>
                 <NavigationMenuList>
@@ -51,52 +66,76 @@ export function Navbar() {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <Link to="/products/tracking-cycle" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/tracking-cycle')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Tracking cycle</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle and symptoms
                           </p>
-                        </Link>
-                        <Link to="/products/getting-pregnant" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/getting-pregnant')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Getting pregnant</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Tools for planning conception
                           </p>
-                        </Link>
-                        <Link to="/products/pregnancy" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/pregnancy')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Pregnancy</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Support through your pregnancy journey
                           </p>
-                        </Link>
-                        <Link to="/products/help-center" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/help-center')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Help Center</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Get answers to your questions
                           </p>
-                        </Link>
-                        <Link to="/products/flo-for-partners" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/flo-for-partners')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Flo for Partners</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Share insights with your partner
                           </p>
-                        </Link>
-                        <Link to="/products/anonymous-mode" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/anonymous-mode')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Anonymous Mode</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Enhanced privacy features
                           </p>
-                        </Link>
-                        <Link to="/products/premium" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/premium')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Flo Premium</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Unlock advanced features
                           </p>
-                        </Link>
-                        <Link to="/products/symptom-checker" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/products/symptom-checker')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Symptom Checker</div>
                           <div className="text-sm text-gray-500 dark:text-gray-400">Track and analyze your symptoms</div>
-                        </Link>
+                        </button>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -111,75 +150,115 @@ export function Navbar() {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <Link to="/calculators/ovulation" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/ovulation')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Ovulation calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Find your most fertile days
                           </p>
-                        </Link>
-                        <Link to="/calculators/hcg" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/hcg')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">hCG calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate hCG levels during pregnancy
                           </p>
-                        </Link>
-                        <Link to="/calculators/pregnancy-test" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/pregnancy-test')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Pregnancy test calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             When to take a pregnancy test
                           </p>
-                        </Link>
-                        <Link to="/calculators/menstrual-cycle" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/menstrual-cycle')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Menstrual cycle calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle
                           </p>
-                        </Link>
-                        <Link to="/calculators/period" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/period')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Period calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Predict your next period
                           </p>
-                        </Link>
-                        <Link to="/calculators/implantation" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/implantation')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Implantation calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate when implantation may occur
                           </p>
-                        </Link>
-                        <Link to="/calculators/pregnancy-weeks-to-months" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/pregnancy-weeks-to-months')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Pregnancy weeks to months</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Convert pregnancy weeks to months
                           </p>
-                        </Link>
-                        <Link to="/calculators/pregnancy-due-date" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/pregnancy-due-date')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Pregnancy due date</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate your estimated due date
                           </p>
-                        </Link>
-                        <Link to="/calculators/ivf-fet-due-date" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/ivf-fet-due-date')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">IVF and FET due date</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate due date for IVF pregnancies
                           </p>
-                        </Link>
-                        <Link to="/calculators/due-date-by-ultrasound" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </button>
+                        <button 
+                          onClick={() => handleProtectedNavigation('/calculators/due-date-by-ultrasound')}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        >
                           <div className="font-medium">Due date by ultrasound</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Adjust due date based on ultrasound
                           </p>
-                        </Link>
+                        </button>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
               
-              <Link to="/premium" className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300">
+              <button 
+                onClick={() => handleProtectedNavigation('/premium')}
+                className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300"
+              >
                 Premium
-              </Link>
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/tracker')}
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
+              >
+                <Calendar className="h-4 w-4 mr-1" />
+                Tracker
+              </button>
               <Link to="/blog" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
                 <BookOpen className="h-4 w-4 mr-1" />
                 Blog
@@ -236,10 +315,13 @@ export function Navbar() {
               Home
             </Link>
             
-            <Link to="/tracker" className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
+            <button 
+              onClick={() => handleProtectedNavigation('/tracker')}
+              className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
+            >
               <Calendar className="h-4 w-4 mr-2" />
               Tracker
-            </Link>
+            </button>
 
             <div className="collapsible">
               <button 
@@ -277,23 +359,26 @@ export function Navbar() {
               </button>
               {false && (
                 <div className="pl-6 space-y-1">
-                  <Link to="/calculators/ovulation" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Ovulation calculator</Link>
-                  <Link to="/calculators/hcg" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">hCG calculator</Link>
-                  <Link to="/calculators/pregnancy-test" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy test calculator</Link>
-                  <Link to="/calculators/menstrual-cycle" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Menstrual cycle calculator</Link>
-                  <Link to="/calculators/period" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Period calculator</Link>
-                  <Link to="/calculators/implantation" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Implantation calculator</Link>
-                  <Link to="/calculators/pregnancy-weeks-to-months" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy weeks to months</Link>
-                  <Link to="/calculators/pregnancy-due-date" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy due date</Link>
-                  <Link to="/calculators/ivf-fet-due-date" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">IVF and FET due date</Link>
-                  <Link to="/calculators/due-date-by-ultrasound" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Due date by ultrasound</Link>
+                  <button onClick={() => handleProtectedNavigation('/calculators/ovulation')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Ovulation calculator</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/hcg')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">hCG calculator</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/pregnancy-test')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy test calculator</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/menstrual-cycle')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Menstrual cycle calculator</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/period')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Period calculator</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/implantation')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Implantation calculator</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/pregnancy-weeks-to-months')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy weeks to months</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/pregnancy-due-date')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy due date</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/ivf-fet-due-date')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">IVF and FET due date</button>
+                  <button onClick={() => handleProtectedNavigation('/calculators/due-date-by-ultrasound')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Due date by ultrasound</button>
                 </div>
               )}
             </div>
             
-            <Link to="/premium" className="px-3 py-2 rounded-md text-base font-medium text-bloom-600 dark:text-bloom-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-700 dark:hover:text-bloom-300">
+            <button 
+              onClick={() => handleProtectedNavigation('/premium')}
+              className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-bloom-600 dark:text-bloom-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-700 dark:hover:text-bloom-300"
+            >
               Premium
-            </Link>
+            </button>
             <Link to="/blog" className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
               <BookOpen className="h-4 w-4 mr-2" />
               Blog
