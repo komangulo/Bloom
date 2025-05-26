@@ -12,6 +12,18 @@ import NotFound from "./pages/NotFound";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
+import BlogPage from "./pages/BlogPage";
+import DrLaneInterview from "./pages/blog/dr-lane-interview";
+import OptimizingOBGYNWorkflow from "./pages/blog/optimizing-obgyn-workflow";
+import ESADFrameworkAI from "./pages/blog/esad-framework-ai-obgyn";
+import TimeSavingTips from "./pages/blog/time-saving-tips-obgyn";
+import TechDataCompassion from "./pages/blog/tech-data-compassion";
+import PersonalizedCareOBGYN from "./pages/blog/personalized-care-obgyn";
+import NavigatingPerimenopause from "./pages/blog/navigating-perimenopause";
+import ManagingPMS from "./pages/blog/managing-pms";
+import NutritionHormonalHealth from "./pages/blog/nutrition-hormonal-health";
+import ExerciseMenstrualCycle from "./pages/blog/exercise-menstrual-cycle";
+import MentalHealthMenstrualCycle from "./pages/blog/mental-health-menstrual-cycle";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 // Products pages
@@ -60,6 +72,18 @@ const AppContent = () => {
                   <Route path="/" element={<Index />} />
                   <Route path="/premium" element={<Premium />} />
                   <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/blog/dr-lane-interview" element={<DrLaneInterview />} />
+                  <Route path="/blog/optimizing-obgyn-workflow" element={<OptimizingOBGYNWorkflow />} />
+                  <Route path="/blog/esad-framework-ai-obgyn" element={<ESADFrameworkAI />} />
+                  <Route path="/blog/time-saving-tips-obgyn" element={<TimeSavingTips />} />
+                  <Route path="/blog/tech-data-compassion" element={<TechDataCompassion />} />
+                  <Route path="/blog/personalized-care-obgyn" element={<PersonalizedCareOBGYN />} />
+                  <Route path="/blog/navigating-perimenopause" element={<NavigatingPerimenopause />} />
+                  <Route path="/blog/managing-pms" element={<ManagingPMS />} />
+                  <Route path="/blog/nutrition-hormonal-health" element={<NutritionHormonalHealth />} />
+                  <Route path="/blog/exercise-menstrual-cycle" element={<ExerciseMenstrualCycle />} />
+                  <Route path="/blog/mental-health-menstrual-cycle" element={<MentalHealthMenstrualCycle />} />
                   <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
                   {/* Tracker protegido */}
                   <Route path="/tracker" element={<ProtectedRoute requirePremium={false}><Tracker /></ProtectedRoute>} />

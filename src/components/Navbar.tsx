@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Calendar, User, Settings, Heart } from 'lucide-react';
+import { Menu, X, Calendar, User, Settings, Heart, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react';
 import {
@@ -180,6 +180,10 @@ export function Navbar() {
               <Link to="/premium" className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300">
                 Premium
               </Link>
+              <Link to="/blog" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
+                <BookOpen className="h-4 w-4 mr-1" />
+                Blog
+              </Link>
             </div>
           </div>
           
@@ -289,6 +293,10 @@ export function Navbar() {
             
             <Link to="/premium" className="px-3 py-2 rounded-md text-base font-medium text-bloom-600 dark:text-bloom-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-700 dark:hover:text-bloom-300">
               Premium
+            </Link>
+            <Link to="/blog" className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
+              <BookOpen className="h-4 w-4 mr-2" />
+              Blog
             </Link>
             
             {isSignedIn ? (
