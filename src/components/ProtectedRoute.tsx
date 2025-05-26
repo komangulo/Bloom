@@ -21,16 +21,6 @@ const ProtectedRoute = ({ children, requirePremium = true }: ProtectedRouteProps
     setIsClient(true);
   }, []);
 
-  // Efecto para manejar la redirección después de la autenticación
-  useEffect(() => {
-    if (isClient && isUserLoaded && !isSignedIn) {
-      // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
-      // Clerk manejará la redirección de vuelta después del inicio de sesión
-      const redirectUrl = `${window.location.pathname}${window.location.search}`;
-      navigate(`/signin?redirect_url=${encodeURIComponent(redirectUrl)}`);
-    }
-  }, [isClient, isUserLoaded, isSignedIn, navigate]);
-
   // Mostrar un indicador de carga mientras se verifica la autenticación
   if (!isClient || !isUserLoaded || isPremiumLoading) {
     return (
@@ -45,7 +35,9 @@ const ProtectedRoute = ({ children, requirePremium = true }: ProtectedRouteProps
   
   // Si el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión
   if (!isSignedIn) {
-    return <Navigate to="/signin" state={{ from: location }} replace />;
+    // Construir la URL de redirección después del inicio de sesión
+    const redirectUrl = `${window.location.pathname}${window.location.search || ''}`;
+    return <Navigate to={`/signin?redirect_url=${encodeURIComponent(redirectUrl)}`} replace />;
   }
 
   // Si se requiere premium y el usuario no lo tiene, redirigir a la página de premium
