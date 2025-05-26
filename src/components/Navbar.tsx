@@ -21,8 +21,8 @@ export function Navbar() {
   // Función para manejar la navegación a rutas protegidas
   const handleProtectedNavigation = (path: string) => {
     if (!isSignedIn) {
-      // Si el usuario no está autenticado, redirigir a signin con la ruta de retorno
-      window.location.href = `/signin?redirect_url=${encodeURIComponent(path)}`;
+      // Si el usuario no está autenticado, redirigir a period.click/signup
+      window.location.href = 'https://www.period.click/signup';
     } else {
       // Si está autenticado, navegar normalmente
       navigate(path);
@@ -323,54 +323,118 @@ export function Navbar() {
               Tracker
             </button>
 
-            <div className="collapsible">
+            <div className="space-y-1">
               <button 
-                onClick={() => {
-                }}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex justify-between items-center"
+                onClick={() => handleProtectedNavigation('/products/tracking-cycle')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
-                Products
-                <span></span>
+                Tracking cycle
               </button>
-              {false && (
-                <div className="pl-6 space-y-1">
-                  <Link to="/products/tracking-cycle" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Tracking cycle</Link>
-                  <Link to="/products/getting-pregnant" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Getting pregnant</Link>
-                  <Link to="/products/pregnancy" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy</Link>
-                  <Link to="/products/help-center" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Help Center</Link>
-                  <Link to="/products/flo-for-partners" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Flo for Partners</Link>
-                  <Link to="/products/anonymous-mode" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Anonymous Mode</Link>
-                  <Link to="/products/premium" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Flo Premium</Link>
-                  <Link to="/products/symptom-checker" className="flex px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">
-                    Symptom Checker
-                  </Link>
-                </div>
-              )}
+              <button 
+                onClick={() => handleProtectedNavigation('/products/getting-pregnant')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Getting pregnant
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/products/pregnancy')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Pregnancy
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/products/help-center')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Help Center
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/products/flo-for-partners')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Flo for Partners
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/products/anonymous-mode')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Anonymous Mode
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/products/premium')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Flo Premium
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/products/symptom-checker')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Symptom Checker
+              </button>
             </div>
 
-            <div className="collapsible">
+            <div className="space-y-1">
               <button 
-                onClick={() => {
-                }}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex justify-between items-center"
+                onClick={() => handleProtectedNavigation('/calculators/ovulation')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
-                Calculators
-                <span></span>
+                Ovulation calculator
               </button>
-              {false && (
-                <div className="pl-6 space-y-1">
-                  <button onClick={() => handleProtectedNavigation('/calculators/ovulation')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Ovulation calculator</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/hcg')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">hCG calculator</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/pregnancy-test')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy test calculator</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/menstrual-cycle')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Menstrual cycle calculator</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/period')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Period calculator</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/implantation')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Implantation calculator</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/pregnancy-weeks-to-months')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy weeks to months</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/pregnancy-due-date')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Pregnancy due date</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/ivf-fet-due-date')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">IVF and FET due date</button>
-                  <button onClick={() => handleProtectedNavigation('/calculators/due-date-by-ultrasound')} className="w-full text-left px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Due date by ultrasound</button>
-                </div>
-              )}
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/hcg')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                hCG calculator
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/pregnancy-test')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Pregnancy test calculator
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/menstrual-cycle')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Menstrual cycle calculator
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/period')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Period calculator
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/implantation')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Implantation calculator
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/pregnancy-weeks-to-months')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Pregnancy weeks to months
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/pregnancy-due-date')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Pregnancy due date
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/ivf-fet-due-date')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                IVF and FET due date
+              </button>
+              <button 
+                onClick={() => handleProtectedNavigation('/calculators/due-date-by-ultrasound')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Due date by ultrasound
+              </button>
             </div>
             
             <button 
