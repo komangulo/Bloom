@@ -9,6 +9,7 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Clerk Publishable Key");
 }
 
+// Configuración de apariencia para Clerk
 const clerkAppearance = {
   elements: {
     rootBox: {
@@ -20,20 +21,30 @@ const clerkAppearance = {
       margin: '0 auto',
     },
   },
+  variables: {
+    colorPrimary: '#EE45C0',
+  },
+};
+
+// Componente para manejar la navegación personalizada
+const ClerkWithNavigate = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <ClerkProvider 
+      publishableKey={PUBLISHABLE_KEY}
+      appearance={clerkAppearance}
+      signInUrl="/signin"
+      signUpUrl="/signup"
+      afterSignInUrl="/dashboard"
+      afterSignUpUrl="/dashboard"
+      afterSignOutUrl="/"
+    >
+      {children}
+    </ClerkProvider>
+  );
 };
 
 createRoot(document.getElementById("root")!).render(
-  <ClerkProvider 
-    publishableKey={PUBLISHABLE_KEY}
-    appearance={clerkAppearance}
-    signInUrl="/signin"
-    signUpUrl="/signup"
-    signInFallbackRedirectUrl="/"
-    signUpFallbackRedirectUrl="/premium"
-    afterSignInUrl="/"
-    afterSignUpUrl="/premium"
-    afterSignOutUrl="/"
-  >
+  <ClerkWithNavigate>
     <App />
-  </ClerkProvider>
+  </ClerkWithNavigate>
 );

@@ -6,6 +6,9 @@ const SignInPage = () => {
   const [searchParams] = useSearchParams();
   const redirectUrl = searchParams.get('redirect_url') || '/';
   
+  // Construir la URL de registro con el redirect_url actual
+  const signUpUrl = `/signup${redirectUrl ? `?redirect_url=${encodeURIComponent(redirectUrl)}` : ''}`;
+  
   return (
     <div className="min-h-screen flex flex-col">
       <header className="px-4 py-3 flex items-center justify-between border-b">
@@ -18,7 +21,7 @@ const SignInPage = () => {
           <span className="font-bold text-xl text-bloom-600 dark:text-bloom-400">Bloom</span>
         </Link>
         <div className="flex items-center gap-4">
-          <Link to="/signup">
+          <Link to={signUpUrl}>
             <button className="bg-[#EE45C0] hover:bg-[#d93aaf] text-white px-6 py-2 rounded-full font-medium transition-colors">
               Get Started
             </button>
@@ -36,10 +39,10 @@ const SignInPage = () => {
               }
             }}
             routing="path" 
-            path="/signin" 
-            redirectUrl={redirectUrl}
-            signUpUrl="/signup"
+            path="/signin"
+            signUpUrl={signUpUrl}
             afterSignInUrl={redirectUrl}
+            afterSignUpUrl={redirectUrl}
           />
         </div>
       </div>
