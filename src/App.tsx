@@ -53,6 +53,17 @@ import AdminUsers from "./pages/AdminUsers";
 
 const queryClient = new QueryClient();
 
+// Componente de layout principal que incluye Navbar y Footer
+const MainLayout = () => (
+  <>
+    <Navbar />
+    <main className="min-h-screen">
+      <Outlet />
+    </main>
+    <Footer />
+  </>
+);
+
 const AppContent = () => {
   return (
     <BrowserRouter>
@@ -62,90 +73,65 @@ const AppContent = () => {
         <Route path="/signup" element={<SignUpPage />} />
 
         {/* Layout principal con Navbar y Footer */}
-        <Route element={
-          <>
-            <Navbar />
-            <div className="min-h-screen">
-              <Outlet />
-            </div>
-            <Footer />
-          </>
-        }>
+        <Route element={<MainLayout />}>
           {/* Rutas públicas */}
           <Route path="/" element={<Index />} />
           <Route path="/premium" element={<Premium />} />
           
-          {/* Ruta de dashboard protegida */}
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          
-          {/* Rutas del blog */}
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/dr-lane-interview" element={<DrLaneInterview />} />
-          <Route path="/blog/optimizing-obgyn-workflow" element={<OptimizingOBGYNWorkflow />} />
-          <Route path="/blog/esad-framework-ai-obgyn" element={<ESADFrameworkAI />} />
-          <Route path="/blog/time-saving-tips-obgyn" element={<TimeSavingTips />} />
-          <Route path="/blog/tech-data-compassion" element={<TechDataCompassion />} />
-          <Route path="/blog/personalized-care-obgyn" element={<PersonalizedCareOBGYN />} />
-          <Route path="/blog/navigating-perimenopause" element={<NavigatingPerimenopause />} />
-          <Route path="/blog/managing-pms" element={<ManagingPMS />} />
-          <Route path="/blog/nutrition-hormonal-health" element={<NutritionHormonalHealth />} />
-          <Route path="/blog/exercise-menstrual-cycle" element={<ExerciseMenstrualCycle />} />
-          <Route path="/blog/mental-health-menstrual-cycle" element={<MentalHealthMenstrualCycle />} />
-          
-          {/* Ruta de administración */}
-          <Route path="/admin/users" element={
-            <ProtectedRoute>
-              <AdminUsers />
-            </ProtectedRoute>
-          } />
-          
-          {/* Ruta del tracker */}
-          <Route path="/tracker" element={
-            <ProtectedRoute requirePremium={false}>
-              <Tracker />
-            </ProtectedRoute>
-          } />
-          
-          {/* Rutas anidadas de productos */}
-          <Route path="/products" element={
-            <ProtectedRoute requirePremium={true}>
-              <Outlet />
-            </ProtectedRoute>
-          }>
-            <Route index element={<Navigate to="tracking-cycle" replace />} />
-            <Route path="tracking-cycle" element={<TrackingCycle />} />
-            <Route path="getting-pregnant" element={<GettingPregnant />} />
-            <Route path="pregnancy" element={<Pregnancy />} />
-            <Route path="help-center" element={<HelpCenter />} />
-            <Route path="flo-for-partners" element={<FloForPartners />} />
-            <Route path="anonymous-mode" element={<AnonymousMode />} />
-            <Route path="premium" element={<FloPreview />} />
-            <Route path="symptom-checker" element={<SymptomChecker />} />
-            <Route path="*" element={<Navigate to="tracking-cycle" replace />} />
+          {/* Rutas del blog (públicas) */}
+          <Route path="/blog">
+            <Route index element={<BlogPage />} />
+            <Route path="dr-lane-interview" element={<DrLaneInterview />} />
+            <Route path="optimizing-obgyn-workflow" element={<OptimizingOBGYNWorkflow />} />
+            <Route path="esad-framework-ai-obgyn" element={<ESADFrameworkAI />} />
+            <Route path="time-saving-tips-obgyn" element={<TimeSavingTips />} />
+            <Route path="tech-data-compassion" element={<TechDataCompassion />} />
+            <Route path="personalized-care-obgyn" element={<PersonalizedCareOBGYN />} />
+            <Route path="navigating-perimenopause" element={<NavigatingPerimenopause />} />
+            <Route path="managing-pms" element={<ManagingPMS />} />
+            <Route path="nutrition-hormonal-health" element={<NutritionHormonalHealth />} />
+            <Route path="exercise-menstrual-cycle" element={<ExerciseMenstrualCycle />} />
+            <Route path="mental-health-menstrual-cycle" element={<MentalHealthMenstrualCycle />} />
           </Route>
           
-          {/* Rutas anidadas de calculadoras */}
-          <Route path="/calculators" element={
-            <ProtectedRoute requirePremium={true}>
-              <Outlet />
-            </ProtectedRoute>
-          }>
-            <Route index element={<Navigate to="ovulation-calculator" replace />} />
-            <Route path="ovulation-calculator" element={<OvulationCalculator />} />
-            <Route path="hcg-calculator" element={<HcgCalculator />} />
-            <Route path="pregnancy-test-calculator" element={<PregnancyTestCalculator />} />
-            <Route path="menstrual-cycle-calculator" element={<MenstrualCycleCalculator />} />
-            <Route path="period-calculator" element={<PeriodCalculator />} />
-            <Route path="implantation-calculator" element={<ImplantationCalculator />} />
-            <Route path="pregnancy-weeks-to-months-calculator" element={<PregnancyWeeksToMonthsCalculator />} />
-            <Route path="pregnancy-due-date-calculator" element={<PregnancyDueDateCalculator />} />
-            <Route path="ivf-fet-due-date-calculator" element={<IvfFetDueDateCalculator />} />
-            <Route path="due-date-calculator-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
-            <Route path="*" element={<Navigate to="ovulation-calculator" replace />} />
+          {/* Rutas protegidas */}
+          <Route element={<ProtectedRoute requirePremium={false}>
+            <Outlet />
+          </ProtectedRoute>}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/tracker" element={<Tracker />} />
+            
+            {/* Ruta de administración */}
+            <Route path="/admin/users" element={
+              <ProtectedRoute requirePremium={true}>
+                <AdminUsers />
+              </ProtectedRoute>
+            } />
+            
+            {/* Rutas de productos protegidas */}
+            <Route path="/products/tracking-cycle" element={<TrackingCycle />} />
+            <Route path="/products/getting-pregnant" element={<GettingPregnant />} />
+            <Route path="/products/pregnancy" element={<Pregnancy />} />
+            <Route path="/products/help-center" element={<HelpCenter />} />
+            <Route path="/products/flo-for-partners" element={<FloForPartners />} />
+            <Route path="/products/anonymous-mode" element={<AnonymousMode />} />
+            <Route path="/products/flo-preview" element={<FloPreview />} />
+            <Route path="/products/symptom-checker" element={<SymptomChecker />} />
+            
+            {/* Rutas de calculadoras protegidas */}
+            <Route path="/calculators">
+              <Route path="ovulation" element={<OvulationCalculator />} />
+              <Route path="hcg" element={<HcgCalculator />} />
+              <Route path="pregnancy-test" element={<PregnancyTestCalculator />} />
+              <Route path="menstrual-cycle" element={<MenstrualCycleCalculator />} />
+              <Route path="period" element={<PeriodCalculator />} />
+              <Route path="implantation" element={<ImplantationCalculator />} />
+              <Route path="pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
+              <Route path="pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
+              <Route path="ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
+              <Route path="due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
+            </Route>
+          
           </Route>
           
           {/* Ruta 404 */}
@@ -154,7 +140,7 @@ const AppContent = () => {
       </Routes>
     </BrowserRouter>
   );
-}
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
