@@ -1,8 +1,8 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Calendar, Lock, Heart, MessageSquare, Share2, Activity } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export function Features() {
   return (
@@ -122,9 +122,11 @@ export function Features() {
         </div>
         
         <div className="mt-16 text-center">
-          <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600 min-w-[200px]">
-            Get Started for Free
-          </Button>
+          <Link to="/signup">
+            <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600 min-w-[200px]">
+              Get Started for Free
+            </Button>
+          </Link>
           <p className="mt-4 text-sm text-gray-600 dark:text-gray-400">
             No credit card required. No hidden fees.
           </p>

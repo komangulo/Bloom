@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Products pages
 import TrackingCycle from "./pages/products/TrackingCycle";
@@ -21,9 +21,7 @@ import Pregnancy from "./pages/products/Pregnancy";
 import HelpCenter from "./pages/products/HelpCenter";
 import FloForPartners from "./pages/products/FloForPartners";
 import AnonymousMode from "./pages/products/AnonymousMode";
-import FloAppReviews from "./pages/products/FloAppReviews";
 import FloPreview from "./pages/products/FloPreview";
-import SecretChats from "./pages/products/SecretChats";
 import SymptomChecker from "./pages/products/SymptomChecker";
 
 // Calculator pages
@@ -37,6 +35,9 @@ import PregnancyWeeksToMonthsCalculator from "./pages/calculators/PregnancyWeeks
 import PregnancyDueDateCalculator from "./pages/calculators/PregnancyDueDateCalculator";
 import IvfFetDueDateCalculator from "./pages/calculators/IvfFetDueDateCalculator";
 import DueDateCalculatorByUltrasound from "./pages/calculators/DueDateCalculatorByUltrasound";
+
+// Admin pages
+import AdminUsers from "./pages/AdminUsers";
 
 const queryClient = new QueryClient();
 
@@ -59,32 +60,41 @@ const AppContent = () => {
                   <Route path="/" element={<Index />} />
                   <Route path="/premium" element={<Premium />} />
                   <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/tracker" element={<Tracker />} />
-                  
-                  {/* Products Pages */}
-                  <Route path="/products/tracking-cycle" element={<TrackingCycle />} />
-                  <Route path="/products/getting-pregnant" element={<GettingPregnant />} />
-                  <Route path="/products/pregnancy" element={<Pregnancy />} />
-                  <Route path="/products/help-center" element={<HelpCenter />} />
-                  <Route path="/products/flo-for-partners" element={<FloForPartners />} />
-                  <Route path="/products/anonymous-mode" element={<AnonymousMode />} />
-                  <Route path="/products/app-reviews" element={<FloAppReviews />} />
-                  <Route path="/products/premium" element={<FloPreview />} />
-                  <Route path="/products/secret-chats" element={<SecretChats />} />
-                  <Route path="/products/symptom-checker" element={<SymptomChecker />} />
-
-                  {/* Calculator Pages */}
-                  <Route path="/calculators/ovulation" element={<OvulationCalculator />} />
-                  <Route path="/calculators/hcg" element={<HcgCalculator />} />
-                  <Route path="/calculators/pregnancy-test" element={<PregnancyTestCalculator />} />
-                  <Route path="/calculators/menstrual-cycle" element={<MenstrualCycleCalculator />} />
-                  <Route path="/calculators/period" element={<PeriodCalculator />} />
-                  <Route path="/calculators/implantation" element={<ImplantationCalculator />} />
-                  <Route path="/calculators/pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
-                  <Route path="/calculators/pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
-                  <Route path="/calculators/ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
-                  <Route path="/calculators/due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
-
+                  <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
+                  {/* Tracker protegido */}
+                  <Route path="/tracker" element={<ProtectedRoute requirePremium={false}><Tracker /></ProtectedRoute>} />
+                  {/* Products Pages protegidas */}
+                  <Route path="/products/*" element={
+                    <ProtectedRoute requirePremium={true}>
+                      <Routes>
+                        <Route path="tracking-cycle" element={<TrackingCycle />} />
+                        <Route path="getting-pregnant" element={<GettingPregnant />} />
+                        <Route path="pregnancy" element={<Pregnancy />} />
+                        <Route path="help-center" element={<HelpCenter />} />
+                        <Route path="flo-for-partners" element={<FloForPartners />} />
+                        <Route path="anonymous-mode" element={<AnonymousMode />} />
+                        <Route path="premium" element={<FloPreview />} />
+                        <Route path="symptom-checker" element={<SymptomChecker />} />
+                      </Routes>
+                    </ProtectedRoute>
+                  } />
+                  {/* Calculator Pages protegidas */}
+                  <Route path="/calculators/*" element={
+                    <ProtectedRoute requirePremium={true}>
+                      <Routes>
+                        <Route path="ovulation" element={<OvulationCalculator />} />
+                        <Route path="hcg" element={<HcgCalculator />} />
+                        <Route path="pregnancy-test" element={<PregnancyTestCalculator />} />
+                        <Route path="menstrual-cycle" element={<MenstrualCycleCalculator />} />
+                        <Route path="period" element={<PeriodCalculator />} />
+                        <Route path="implantation" element={<ImplantationCalculator />} />
+                        <Route path="pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
+                        <Route path="pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
+                        <Route path="ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
+                        <Route path="due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
+                      </Routes>
+                    </ProtectedRoute>
+                  } />
                   {/* Catch-all Route */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

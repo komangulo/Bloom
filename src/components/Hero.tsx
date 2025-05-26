@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Heart, Lock, Calendar } from 'lucide-react';
@@ -75,9 +74,11 @@ export function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600 text-white min-w-[160px] h-12">
-              Get Started <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Link to="/signup">
+              <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600 text-white min-w-[160px] h-12">
+                Get Started <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
             
             <Button size="lg" variant="outline" className="border-bloom-300 dark:border-bloom-700 min-w-[160px] h-12">
               Learn More

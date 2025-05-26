@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { addDays, format, startOfMonth, endOfMonth, eachDayOfInterval, isToday, isSameMonth, isWithinInterval, addMonths, subMonths } from 'date-fns';
 import { cn } from '@/lib/utils';
@@ -9,7 +8,7 @@ interface CalendarViewProps {
   selectedDay: Date;
   setSelectedDay: (date: Date) => void;
   periodDays?: Date[];
-  ovulationDay?: Date;
+  ovulationDays?: Date[];
   fertileDays?: Date[];
 }
 
@@ -17,7 +16,7 @@ export function CalendarView({
   selectedDay,
   setSelectedDay,
   periodDays = [],
-  ovulationDay,
+  ovulationDays = [],
   fertileDays = []
 }: CalendarViewProps) {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -40,17 +39,28 @@ export function CalendarView({
   
   const allDays = [...paddingStart, ...monthDays, ...paddingEnd];
 
+  const isSameDay = (a: Date, b: Date) =>
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
+
   const isPeriodDay = (date: Date) => {
-    return periodDays.some(d => d.toDateString() === date.toDateString());
+    return periodDays.some(d => isSameDay(d, date));
   };
   
   const isFertileDay = (date: Date) => {
-    return fertileDays.some(d => d.toDateString() === date.toDateString());
+    return fertileDays.some(d => isSameDay(d, date));
   };
   
   const isOvulationDay = (date: Date) => {
-    return ovulationDay && ovulationDay.toDateString() === date.toDateString();
+    return ovulationDays.some(d => isSameDay(d, date));
   };
+
+  // Depuración: mostrar días coloreados
+  React.useEffect(() => {
+    const daysColoreados = { period: periodDays, fertile: fertileDays, ovulation: ovulationDays };
+    console.log('DÍAS COLOREADOS EN EL MES', daysColoreados);
+  }, [periodDays, fertileDays, ovulationDays]);
 
   const goToPreviousMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
   const goToNextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
@@ -80,27 +90,27 @@ export function CalendarView({
           {allDays.map((day, i) => {
             const isCurrentMonth = isSameMonth(day, currentMonth);
             let bgClass = '';
-            
+            let extraClass = '';
             if (isPeriodDay(day)) {
-              bgClass = 'bg-bloom-100 dark:bg-bloom-900/30 text-bloom-700 dark:text-bloom-300 font-medium';
+              bgClass = 'bg-pink-500 text-white font-bold';
             } else if (isOvulationDay(day)) {
-              bgClass = 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 font-medium';
+              bgClass = 'bg-purple-600 text-white font-bold ring-2 ring-purple-800';
             } else if (isFertileDay(day)) {
-              bgClass = 'bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400';
+              bgClass = 'bg-cyan-400 text-white font-bold';
             }
-            
             return (
               <button
                 key={i}
                 onClick={() => setSelectedDay(day)}
                 className={cn(
-                  "h-9 w-9 rounded-full flex items-center justify-center text-sm",
+                  "h-9 w-9 rounded-full flex items-center justify-center text-sm transition-all",
                   !isCurrentMonth && "text-muted-foreground opacity-50",
                   isToday(day) && "border border-bloom-400 dark:border-bloom-500",
                   selectedDay.toDateString() === day.toDateString() && 
                     "bg-bloom-500 text-white font-medium hover:bg-bloom-600",
                   selectedDay.toDateString() !== day.toDateString() && bgClass,
-                  selectedDay.toDateString() !== day.toDateString() && "hover:bg-muted"
+                  selectedDay.toDateString() !== day.toDateString() && "hover:bg-muted",
+                  isOvulationDay(day) ? "ring-2 ring-purple-800" : ""
                 )}
               >
                 {day.getDate()}

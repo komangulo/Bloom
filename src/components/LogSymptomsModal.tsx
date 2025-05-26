@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Dialog,
@@ -12,6 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/components/ui/use-toast";
+import { useUser } from '@clerk/clerk-react';
+import { supabase } from '@/lib/supabase';
 
 const symptoms = [
   { id: "cramps", label: "Cramps" },
@@ -32,6 +33,7 @@ interface LogSymptomsModalProps {
 export function LogSymptomsModal({ open, onOpenChange }: LogSymptomsModalProps) {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const { toast } = useToast();
+  const { user } = useUser();
 
   const handleSymptomToggle = (symptomId: string) => {
     setSelectedSymptoms((current) => {
@@ -43,7 +45,7 @@ export function LogSymptomsModal({ open, onOpenChange }: LogSymptomsModalProps) 
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (selectedSymptoms.length === 0) {
       toast({
         title: "No symptoms selected",
@@ -52,19 +54,41 @@ export function LogSymptomsModal({ open, onOpenChange }: LogSymptomsModalProps) 
       });
       return;
     }
-
-    // Here you would typically save this data to your backend
-    // For now we'll just show a success toast
+    if (!user) {
+      toast({ title: 'Error', description: 'You must be logged in to log symptoms.', variant: 'destructive' });
+      return;
+    }
+    // Buscar el periodo actual (el que incluye hoy)
+    const today = new Date().toISOString().slice(0, 10);
+    const { data: periods, error } = await supabase
+      .from('periods')
+      .select('*')
+      .eq('user_id', user.id);
+    if (error || !periods || periods.length === 0) {
+      toast({ title: 'No period found', description: 'You must have a registered period to log symptoms.', variant: 'destructive' });
+      return;
+    }
+    const period = periods.find(p => today >= p.start_date && today <= p.end_date);
+    if (!period) {
+      toast({ title: 'No period found', description: 'No current period found for today.', variant: 'destructive' });
+      return;
+    }
+    // Guardar síntomas en el periodo actual
+    const { error: updateError } = await supabase
+      .from('periods')
+      .update({ symptoms: selectedSymptoms })
+      .eq('id', period.id);
+    if (updateError) {
+      toast({ title: 'Error', description: updateError.message, variant: 'destructive' });
+      return;
+    }
     const selectedLabels = symptoms
       .filter(symptom => selectedSymptoms.includes(symptom.id))
       .map(symptom => symptom.label);
-
     toast({
       title: "Symptoms logged successfully",
       description: `You've logged: ${selectedLabels.join(", ")}`,
     });
-
-    // Reset and close
     setSelectedSymptoms([]);
     onOpenChange(false);
   };

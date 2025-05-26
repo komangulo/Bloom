@@ -1,5 +1,5 @@
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useUser } from '@clerk/clerk-react';
 import {
   Dialog,
   DialogContent,
@@ -22,32 +22,102 @@ import {
   Bar, 
   Legend 
 } from 'recharts';
+import { getUserPeriods, getUserSymptomStats, getUserSymptomLogs } from '@/lib/supabase';
+import { Loader2 } from 'lucide-react';
 
 interface HealthAnalysisProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-// Sample data for charts
-const cycleData = [
-  { month: 'Jan', length: 28, avgFlow: 3 },
-  { month: 'Feb', length: 29, avgFlow: 4 },
-  { month: 'Mar', length: 26, avgFlow: 3 },
-  { month: 'Apr', length: 28, avgFlow: 2 },
-  { month: 'May', length: 27, avgFlow: 3 },
-  { month: 'Jun', length: 30, avgFlow: 4 },
-];
-
-const symptomData = [
-  { name: 'Cramps', value: 60 },
-  { name: 'Headache', value: 45 },
-  { name: 'Bloating', value: 80 },
-  { name: 'Back Pain', value: 30 },
-  { name: 'Fatigue', value: 70 },
-  { name: 'Mood Swings', value: 55 },
-];
-
 export function HealthAnalysis({ open, onOpenChange }: HealthAnalysisProps) {
+  const { user } = useUser();
+  const [loading, setLoading] = useState(true);
+  const [cycleData, setCycleData] = useState<any[]>([]);
+  const [symptomData, setSymptomData] = useState<any[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (!user) return;
+      
+      setLoading(true);
+      setError(null);
+      
+      try {
+        // Obtener periodos reales (ciclo)
+        const periods = await getUserPeriods(user.id, 12);
+        if (periods && periods.length > 1) {
+          const sorted = periods.sort((a, b) => new Date(a.start_date) - new Date(b.start_date));
+          const formattedCycleData = sorted.map((period, i, arr) => {
+            if (i === 0) return null;
+            const prev = arr[i - 1];
+            const cycleLength = (new Date(period.start_date) - new Date(prev.start_date)) / (1000 * 60 * 60 * 24);
+            return {
+              month: new Date(period.start_date).toLocaleString('default', { month: 'short' }),
+              length: cycleLength,
+              avgFlow: period.flow_intensity || null
+            };
+          }).filter(Boolean);
+          setCycleData(formattedCycleData);
+        } else {
+          setCycleData([]);
+        }
+        // Obtener logs diarios de síntomas y calcular frecuencia
+        const logs = await getUserSymptomLogs(user.id);
+        const freq: Record<string, number> = {};
+        logs.forEach(log => {
+          (log.symptoms || []).forEach((sym: string) => {
+            freq[sym] = (freq[sym] || 0) + 1;
+          });
+        });
+        const totalLogs = logs.length || 1;
+        const formattedSymptomData = Object.entries(freq)
+          .map(([name, count]) => ({
+            name,
+            value: Math.round((count as number) * 100 / totalLogs)
+          }))
+          .sort((a, b) => b.value - a.value);
+        setSymptomData(formattedSymptomData);
+      } catch (err) {
+        setError('Error loading health data. Please try again later.');
+        console.error('Error fetching health data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    if (open) {
+      fetchData();
+    }
+  }, [open, user]);
+
+  if (loading) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[800px]">
+          <div className="flex flex-col items-center justify-center h-[400px]">
+            <Loader2 className="h-8 w-8 animate-spin text-bloom-500" />
+            <p className="mt-4 text-muted-foreground">Loading your health analysis...</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
+  if (error) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[800px]">
+          <div className="flex flex-col items-center justify-center h-[400px]">
+            <p className="text-red-500">{error}</p>
+            <Button onClick={() => onOpenChange(false)} className="mt-4">Close</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[800px]">
@@ -68,7 +138,7 @@ export function HealthAnalysis({ open, onOpenChange }: HealthAnalysisProps) {
             <div className="rounded-md bg-slate-50 p-4 dark:bg-slate-800">
               <h3 className="text-lg font-medium mb-2">Cycle Length Trend</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Your cycle has been relatively stable over the past 6 months, averaging 28 days.
+                Analysis of your cycle patterns over the last {cycleData.length} months.
               </p>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -101,9 +171,9 @@ export function HealthAnalysis({ open, onOpenChange }: HealthAnalysisProps) {
                 <strong>Key Insights:</strong>
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Your cycle length has remained consistent between 26-30 days</li>
-                <li>Your flow intensity averages at 3/5</li>
-                <li>Prediction accuracy is improving with each logged cycle</li>
+                <li>Average cycle length: {Math.round(cycleData.reduce((acc, curr) => acc + curr.length, 0) / cycleData.length)} days</li>
+                <li>Average flow intensity: {(cycleData.reduce((acc, curr) => acc + curr.avgFlow, 0) / cycleData.length).toFixed(1)}/5</li>
+                <li>Cycle regularity: {Math.abs(cycleData[0]?.length - cycleData[cycleData.length-1]?.length) <= 3 ? 'Regular' : 'Irregular'}</li>
               </ul>
             </div>
           </TabsContent>
@@ -112,7 +182,7 @@ export function HealthAnalysis({ open, onOpenChange }: HealthAnalysisProps) {
             <div className="rounded-md bg-slate-50 p-4 dark:bg-slate-800">
               <h3 className="text-lg font-medium mb-2">Symptom Frequency</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                Based on your logs, these are your most common symptoms.
+                Analysis of your most common symptoms based on your logs.
               </p>
               <div className="h-[300px] w-full">
                 <ResponsiveContainer width="100%" height="100%">
@@ -137,15 +207,22 @@ export function HealthAnalysis({ open, onOpenChange }: HealthAnalysisProps) {
                 <strong>Key Insights:</strong>
               </p>
               <ul className="list-disc pl-5 space-y-1">
-                <li>Bloating is your most common symptom (80% of cycles)</li>
-                <li>Symptoms typically start 2 days before your period</li>
-                <li>Cramps tend to be most severe on day 1 of your period</li>
+                {symptomData.length > 0 && (
+                  <>
+                    <li>{symptomData[0].name} is your most common symptom ({symptomData[0].value}% of cycles)</li>
+                    <li>You typically experience {symptomData.filter(s => s.value > 50).length} main symptoms</li>
+                    <li>Pattern: {symptomData.some(s => s.value > 75) ? 'Consistent symptoms' : 'Variable symptoms'}</li>
+                  </>
+                )}
               </ul>
             </div>
           </TabsContent>
         </Tabs>
         
-        <div className="flex justify-end">
+        <div className="flex justify-between">
+          <p className="text-xs text-muted-foreground">
+            Last updated: {new Date().toLocaleDateString()}
+          </p>
           <DialogClose asChild>
             <Button>Close</Button>
           </DialogClose>

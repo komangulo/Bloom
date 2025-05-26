@@ -10,9 +10,11 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { SettingsModal } from '@/components/SettingsModal';
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const { isSignedIn, user } = useUser();
 
   return (
@@ -85,29 +87,15 @@ export function Navbar() {
                             Enhanced privacy features
                           </p>
                         </Link>
-                        <Link to="/products/app-reviews" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
-                          <div className="font-medium">Flo app reviews</div>
-                          <p className="text-sm leading-snug text-muted-foreground">
-                            What users are saying
-                          </p>
-                        </Link>
                         <Link to="/products/premium" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Flo Premium</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Unlock advanced features
                           </p>
                         </Link>
-                        <Link to="/products/secret-chats" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
-                          <div className="font-medium">Secret Chats <span className="ml-1 text-xs bg-bloom-500 text-white px-1 rounded">New</span></div>
-                          <p className="text-sm leading-snug text-muted-foreground">
-                            Private community discussions
-                          </p>
-                        </Link>
                         <Link to="/products/symptom-checker" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
-                          <div className="font-medium">Symptom Checker <span className="ml-1 text-xs bg-bloom-500 text-white px-1 rounded">New</span></div>
-                          <p className="text-sm leading-snug text-muted-foreground">
-                            Understand your symptoms
-                          </p>
+                          <div className="font-medium">Symptom Checker</div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">Track and analyze your symptoms</div>
                         </Link>
                       </div>
                     </NavigationMenuContent>
@@ -198,7 +186,12 @@ export function Navbar() {
           <div className="hidden md:flex items-center space-x-2">
             {isSignedIn ? (
               <>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="rounded-full"
+                  onClick={() => setSettingsOpen(true)}
+                >
                   <Settings className="h-5 w-5" />
                 </Button>
                 <Link to="/dashboard">
@@ -261,13 +254,9 @@ export function Navbar() {
                   <Link to="/products/help-center" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Help Center</Link>
                   <Link to="/products/flo-for-partners" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Flo for Partners</Link>
                   <Link to="/products/anonymous-mode" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Anonymous Mode</Link>
-                  <Link to="/products/app-reviews" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Flo app reviews</Link>
                   <Link to="/products/premium" className="block px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">Flo Premium</Link>
-                  <Link to="/products/secret-chats" className="flex px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">
-                    Secret Chats <span className="ml-1 text-xs bg-bloom-500 text-white px-1 rounded">New</span>
-                  </Link>
                   <Link to="/products/symptom-checker" className="flex px-3 py-1 text-sm text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400">
-                    Symptom Checker <span className="ml-1 text-xs bg-bloom-500 text-white px-1 rounded">New</span>
+                    Symptom Checker
                   </Link>
                 </div>
               )}
@@ -333,6 +322,8 @@ export function Navbar() {
           </div>
         </div>
       )}
+
+      <SettingsModal open={settingsOpen} onOpenChange={setSettingsOpen} />
     </nav>
   );
 }

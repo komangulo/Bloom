@@ -1,4 +1,3 @@
-
 import { SignUp } from "@clerk/clerk-react";
 import { Link } from "react-router-dom";
 
@@ -32,7 +31,7 @@ const SignUpPage = () => {
             }}
             routing="path" 
             path="/signup" 
-            redirectUrl="/dashboard"
+            redirectUrl="/premium"
           />
         </div>
       </div>

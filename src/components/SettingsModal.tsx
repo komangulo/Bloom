@@ -1,4 +1,3 @@
-
 import {
   Dialog,
   DialogContent,
@@ -15,7 +14,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useToast } from "@/components/ui/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useUser, useClerk } from "@clerk/clerk-react";
 
 interface SettingsModalProps {
   open: boolean;
@@ -24,10 +24,12 @@ interface SettingsModalProps {
 
 export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   const { toast } = useToast();
+  const { user } = useUser();
+  const { signOut } = useClerk();
   const [profile, setProfile] = useState({
-    name: "Jane Doe",
-    email: "jane.doe@example.com",
-    birthday: "1990-01-01",
+    name: "",
+    email: "",
+    birthday: "",
   });
   
   const [preferences, setPreferences] = useState({
@@ -35,6 +37,16 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     dataSharing: false,
     themeColor: "bloom",
   });
+
+  useEffect(() => {
+    if (user) {
+      setProfile({
+        name: user.fullName || "",
+        email: user.primaryEmailAddress?.emailAddress || "",
+        birthday: "",  // Clerk no almacena la fecha de nacimiento por defecto
+      });
+    }
+  }, [user]);
   
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -60,11 +72,39 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
     }));
   };
   
-  const handleSaveProfile = () => {
-    toast({
-      title: "Profile updated",
-      description: "Your profile information has been saved.",
-    });
+  const handleSaveProfile = async () => {
+    try {
+      if (!user) {
+        toast({
+          title: "Error",
+          description: "No user session found. Please sign in again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      await user.update({
+        unsafeMetadata: {
+          fullName: profile.name.trim()
+        }
+      });
+
+      toast({
+        title: "Profile updated",
+        description: "Your profile information has been saved.",
+      });
+
+      // Forzar la recarga de la página para actualizar el nombre
+      window.location.reload();
+      
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "There was an error updating your profile. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
   
   const handleSavePreferences = () => {
@@ -77,12 +117,21 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px]">
-        <DialogHeader>
-          <DialogTitle>Settings</DialogTitle>
-          <DialogDescription>
-            Manage your account settings and preferences.
-          </DialogDescription>
-        </DialogHeader>
+        <div className="flex justify-between items-center mb-2">
+          <DialogHeader>
+            <DialogTitle>Settings</DialogTitle>
+            <DialogDescription>
+              Manage your account settings and preferences.
+            </DialogDescription>
+          </DialogHeader>
+          <Button
+            variant="destructive"
+            className="ml-4"
+            onClick={() => signOut()}
+          >
+            Log Out
+          </Button>
+        </div>
         
         <Tabs defaultValue="profile" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -110,6 +159,7 @@ export function SettingsModal({ open, onOpenChange }: SettingsModalProps) {
                   type="email" 
                   value={profile.email} 
                   onChange={handleProfileChange}
+                  disabled
                 />
               </div>
               

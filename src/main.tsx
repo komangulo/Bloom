@@ -1,4 +1,3 @@
-
 import { createRoot } from 'react-dom/client'
 import { ClerkProvider } from "@clerk/clerk-react";
 import App from './App.tsx'
@@ -17,7 +16,7 @@ createRoot(document.getElementById("root")!).render(
     signInUrl="/signin"
     signUpUrl="/signup"
     signInFallbackRedirectUrl="/dashboard"
-    signUpFallbackRedirectUrl="/dashboard"
+    signUpFallbackRedirectUrl="/premium"
     afterSignOutUrl="/"
   >
     <App />

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Hero } from '@/components/Hero';
 import { Features } from '@/components/Features';
@@ -80,9 +79,11 @@ const Index = () => {
                   In an era where your most intimate data is treated as a commodity, Bloom stands firm on the principle that your reproductive health information belongs to you and only you.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600">
-                    Create Free Account
-                  </Button>
+                  <Link to="/signup">
+                    <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600">
+                      Create Free Account
+                    </Button>
+                  </Link>
                   <Button size="lg" variant="outline" asChild>
                     <Link to="/tracker">
                       Try the Tracker
@@ -154,9 +155,11 @@ const Index = () => {
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
             Join thousands of women who are using Bloom to better understand their bodies, all while keeping their data private.
           </p>
-          <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600 min-w-[200px]">
-            Get Started for Free
-          </Button>
+          <Link to="/signup">
+            <Button size="lg" className="bg-gradient-to-r from-bloom-500 to-purple-500 hover:from-bloom-600 hover:to-purple-600 min-w-[200px]">
+              Get Started for Free
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
