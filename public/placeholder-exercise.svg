@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#EFF6FF"/>
+  <path d="M0 0H1200V630H0V0Z" fill="#DBEAFE"/>
+  <circle cx="300" cy="300" r="100" fill="#3B82F6"/>
+  <circle cx="600" cy="300" r="100" fill="#6366F1"/>
+  <circle cx="900" cy="300" r="100" fill="#8B5CF6"/>
+  <path d="M250 200L350 300L250 400" stroke="#1E40AF" stroke-width="20" stroke-linecap="round"/>
+  <path d="M550 200L650 300L550 400" stroke="#4338CA" stroke-width="20" stroke-linecap="round" stroke-dasharray="20,20"/>
+  <path d="M850 200L950 300L850 400" stroke="#5B21B6" stroke-width="20" stroke-linecap="round" stroke-dasharray="10,10"/>
+  <text x="600" y="550" font-family="Arial" font-size="24" text-anchor="middle" fill="#1E40AF">Ejercicio y Ciclo Menstrual</text>
+</svg>
