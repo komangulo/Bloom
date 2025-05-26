@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import Index from "./pages/Index";
@@ -57,76 +57,100 @@ const AppContent = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Auth Routes */}
+        {/* Rutas de autenticación (sin layout) */}
         <Route path="/signin" element={<SignInPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        
-        {/* Main Routes with Navbar and Footer */}
-        <Route
-          path="*"
-          element={
-            <>
-              <Navbar />
-              <div className="min-h-screen">
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/premium" element={<Premium />} />
-                  <Route path="/dashboard" element={<Dashboard />} />
-                  <Route path="/blog" element={<BlogPage />} />
-                  <Route path="/blog/dr-lane-interview" element={<DrLaneInterview />} />
-                  <Route path="/blog/optimizing-obgyn-workflow" element={<OptimizingOBGYNWorkflow />} />
-                  <Route path="/blog/esad-framework-ai-obgyn" element={<ESADFrameworkAI />} />
-                  <Route path="/blog/time-saving-tips-obgyn" element={<TimeSavingTips />} />
-                  <Route path="/blog/tech-data-compassion" element={<TechDataCompassion />} />
-                  <Route path="/blog/personalized-care-obgyn" element={<PersonalizedCareOBGYN />} />
-                  <Route path="/blog/navigating-perimenopause" element={<NavigatingPerimenopause />} />
-                  <Route path="/blog/managing-pms" element={<ManagingPMS />} />
-                  <Route path="/blog/nutrition-hormonal-health" element={<NutritionHormonalHealth />} />
-                  <Route path="/blog/exercise-menstrual-cycle" element={<ExerciseMenstrualCycle />} />
-                  <Route path="/blog/mental-health-menstrual-cycle" element={<MentalHealthMenstrualCycle />} />
-                  <Route path="/admin/users" element={<ProtectedRoute><AdminUsers /></ProtectedRoute>} />
-                  {/* Tracker protegido */}
-                  <Route path="/tracker" element={<ProtectedRoute requirePremium={false}><Tracker /></ProtectedRoute>} />
-                  {/* Products Pages protegidas */}
-                  <Route path="/products/*" element={
-                    <ProtectedRoute requirePremium={true}>
-                      <Routes>
-                        <Route path="tracking-cycle" element={<TrackingCycle />} />
-                        <Route path="getting-pregnant" element={<GettingPregnant />} />
-                        <Route path="pregnancy" element={<Pregnancy />} />
-                        <Route path="help-center" element={<HelpCenter />} />
-                        <Route path="flo-for-partners" element={<FloForPartners />} />
-                        <Route path="anonymous-mode" element={<AnonymousMode />} />
-                        <Route path="premium" element={<FloPreview />} />
-                        <Route path="symptom-checker" element={<SymptomChecker />} />
-                      </Routes>
-                    </ProtectedRoute>
-                  } />
-                  {/* Calculator Pages protegidas */}
-                  <Route path="/calculators/*" element={
-                    <ProtectedRoute requirePremium={true}>
-                      <Routes>
-                        <Route path="ovulation" element={<OvulationCalculator />} />
-                        <Route path="hcg" element={<HcgCalculator />} />
-                        <Route path="pregnancy-test" element={<PregnancyTestCalculator />} />
-                        <Route path="menstrual-cycle" element={<MenstrualCycleCalculator />} />
-                        <Route path="period" element={<PeriodCalculator />} />
-                        <Route path="implantation" element={<ImplantationCalculator />} />
-                        <Route path="pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
-                        <Route path="pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
-                        <Route path="ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
-                        <Route path="due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
-                      </Routes>
-                    </ProtectedRoute>
-                  } />
-                  {/* Catch-all Route */}
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </div>
-              <Footer />
-            </>
-          }
-        />
+
+        {/* Layout principal con Navbar y Footer */}
+        <Route element={
+          <>
+            <Navbar />
+            <div className="min-h-screen">
+              <Outlet />
+            </div>
+            <Footer />
+          </>
+        }>
+          {/* Rutas públicas */}
+          <Route path="/" element={<Index />} />
+          <Route path="/premium" element={<Premium />} />
+          
+          {/* Ruta de dashboard protegida */}
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          
+          {/* Rutas del blog */}
+          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/blog/dr-lane-interview" element={<DrLaneInterview />} />
+          <Route path="/blog/optimizing-obgyn-workflow" element={<OptimizingOBGYNWorkflow />} />
+          <Route path="/blog/esad-framework-ai-obgyn" element={<ESADFrameworkAI />} />
+          <Route path="/blog/time-saving-tips-obgyn" element={<TimeSavingTips />} />
+          <Route path="/blog/tech-data-compassion" element={<TechDataCompassion />} />
+          <Route path="/blog/personalized-care-obgyn" element={<PersonalizedCareOBGYN />} />
+          <Route path="/blog/navigating-perimenopause" element={<NavigatingPerimenopause />} />
+          <Route path="/blog/managing-pms" element={<ManagingPMS />} />
+          <Route path="/blog/nutrition-hormonal-health" element={<NutritionHormonalHealth />} />
+          <Route path="/blog/exercise-menstrual-cycle" element={<ExerciseMenstrualCycle />} />
+          <Route path="/blog/mental-health-menstrual-cycle" element={<MentalHealthMenstrualCycle />} />
+          
+          {/* Ruta de administración */}
+          <Route path="/admin/users" element={
+            <ProtectedRoute>
+              <AdminUsers />
+            </ProtectedRoute>
+          } />
+          
+          {/* Ruta del tracker */}
+          <Route path="/tracker" element={
+            <ProtectedRoute requirePremium={false}>
+              <Tracker />
+            </ProtectedRoute>
+          } />
+          
+          {/* Rutas anidadas de productos */}
+          <Route path="/products" element={
+            <ProtectedRoute requirePremium={true}>
+              <Outlet />
+            </ProtectedRoute>
+          }>
+            <Route index element={<Navigate to="tracking-cycle" replace />} />
+            <Route path="tracking-cycle" element={<TrackingCycle />} />
+            <Route path="getting-pregnant" element={<GettingPregnant />} />
+            <Route path="pregnancy" element={<Pregnancy />} />
+            <Route path="help-center" element={<HelpCenter />} />
+            <Route path="flo-for-partners" element={<FloForPartners />} />
+            <Route path="anonymous-mode" element={<AnonymousMode />} />
+            <Route path="premium" element={<FloPreview />} />
+            <Route path="symptom-checker" element={<SymptomChecker />} />
+            <Route path="*" element={<Navigate to="tracking-cycle" replace />} />
+          </Route>
+          
+          {/* Rutas anidadas de calculadoras */}
+          <Route path="/calculators" element={
+            <ProtectedRoute requirePremium={true}>
+              <Outlet />
+            </ProtectedRoute>
+          }>
+            <Route index element={<Navigate to="ovulation-calculator" replace />} />
+            <Route path="ovulation-calculator" element={<OvulationCalculator />} />
+            <Route path="hcg-calculator" element={<HcgCalculator />} />
+            <Route path="pregnancy-test-calculator" element={<PregnancyTestCalculator />} />
+            <Route path="menstrual-cycle-calculator" element={<MenstrualCycleCalculator />} />
+            <Route path="period-calculator" element={<PeriodCalculator />} />
+            <Route path="implantation-calculator" element={<ImplantationCalculator />} />
+            <Route path="pregnancy-weeks-to-months-calculator" element={<PregnancyWeeksToMonthsCalculator />} />
+            <Route path="pregnancy-due-date-calculator" element={<PregnancyDueDateCalculator />} />
+            <Route path="ivf-fet-due-date-calculator" element={<IvfFetDueDateCalculator />} />
+            <Route path="due-date-calculator-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
+            <Route path="*" element={<Navigate to="ovulation-calculator" replace />} />
+          </Route>
+          
+          {/* Ruta 404 */}
+          <Route path="*" element={<NotFound />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
