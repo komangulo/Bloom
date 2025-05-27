@@ -1,10 +1,22 @@
 
-import { SignIn } from "@clerk/clerk-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { SignIn, useAuth } from "@clerk/clerk-react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const SignInPage = () => {
   const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect_url') || '/';
+  const navigate = useNavigate();
+  const { isLoaded, isSignedIn } = useAuth();
+  
+  // Obtener la URL de redirección o usar /dashboard como valor por defecto
+  const redirectUrl = searchParams.get('redirect_url') || '/dashboard';
+  
+  // Si el usuario ya está autenticado, redirigir a la URL de redirección
+  useEffect(() => {
+    if (isLoaded && isSignedIn) {
+      navigate(redirectUrl);
+    }
+  }, [isLoaded, isSignedIn, navigate, redirectUrl]);
   
   // Construir la URL de registro con el redirect_url actual
   const signUpUrl = `/signup${redirectUrl ? `?redirect_url=${encodeURIComponent(redirectUrl)}` : ''}`;
@@ -33,12 +45,11 @@ const SignInPage = () => {
           <SignIn 
             appearance={{
               elements: {
-                formButtonPrimary: 
-                  "bg-[#EE45C0] hover:bg-[#d93aaf] text-white",
+                formButtonPrimary: "bg-[#EE45C0] hover:bg-[#d93aaf] text-white",
                 card: "border-0 shadow-xl",
               }
             }}
-            routing="path" 
+            routing="path"
             path="/signin"
             signUpUrl={signUpUrl}
             afterSignInUrl={redirectUrl}

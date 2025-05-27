@@ -32,11 +32,8 @@ const ClerkWithNavigate = ({ children }: { children: React.ReactNode }) => {
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY}
       appearance={clerkAppearance}
-      signInUrl="/signin"
-      signUpUrl="/signup"
-      afterSignInUrl="/dashboard"
-      afterSignUpUrl="/dashboard"
-      afterSignOutUrl="/"
+      routerPush={(to) => window.location.assign(to)}
+      routerReplace={(to) => window.location.replace(to)}
     >
       {children}
     </ClerkProvider>
