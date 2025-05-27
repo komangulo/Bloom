@@ -1,10 +1,25 @@
 
 import { SignIn } from "@clerk/clerk-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useUser } from "@clerk/clerk-react";
 
 const SignInPage = () => {
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { isSignedIn } = useUser();
+  
+  // Obtener la URL de redirección de los parámetros de búsqueda o usar la raíz
   const redirectUrl = searchParams.get('redirect_url') || '/';
+  
+  // Si el usuario ya está autenticado, redirigir a la página de destino
+  useEffect(() => {
+    if (isSignedIn) {
+      // Asegurarse de que la URL de redirección sea segura y relativa
+      const safeRedirect = redirectUrl.startsWith('/') ? redirectUrl : '/';
+      navigate(safeRedirect, { replace: true });
+    }
+  }, [isSignedIn, navigate, redirectUrl]);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -35,11 +50,12 @@ const SignInPage = () => {
                 card: "border-0 shadow-xl",
               }
             }}
-            routing="path" 
-            path="/signin" 
-            redirectUrl={redirectUrl}
+            routing="path"
+            path="/signin"
             signUpUrl="/signup"
-            afterSignInUrl={redirectUrl}
+            afterSignInUrl={redirectUrl || '/'}
+            afterSignUpUrl="/premium"
+            redirectUrl={redirectUrl || '/'}
           />
         </div>
       </div>
