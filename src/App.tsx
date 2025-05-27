@@ -95,12 +95,9 @@ const AppContent = () => {
           </Route>
           
           {/* Rutas protegidas */}
-          <Route element={
-            <ProtectedRoute requirePremium={false}>
-              <Outlet />
-            </ProtectedRoute>
-          }>
-            {/* Rutas de dashboard y tracker */}
+          <Route element={<ProtectedRoute requirePremium={false}>
+            <Outlet />
+          </ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tracker" element={<Tracker />} />
             
@@ -121,11 +118,8 @@ const AppContent = () => {
             <Route path="/products/flo-preview" element={<FloPreview />} />
             <Route path="/products/symptom-checker" element={<SymptomChecker />} />
             
-            {/* Rutas de calculadoras protegidas - versión anidada */}
+            {/* Rutas de calculadoras protegidas */}
             <Route path="/calculators">
-              <Route index element={
-                <Navigate to="/calculators/ovulation" replace />
-              } />
               <Route path="ovulation" element={<OvulationCalculator />} />
               <Route path="hcg" element={<HcgCalculator />} />
               <Route path="pregnancy-test" element={<PregnancyTestCalculator />} />

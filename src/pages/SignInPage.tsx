@@ -1,25 +1,10 @@
 
-import { SignIn, useAuth } from "@clerk/clerk-react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { useEffect } from "react";
+import { SignIn } from "@clerk/clerk-react";
+import { Link, useSearchParams } from "react-router-dom";
 
 const SignInPage = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
-  const { isLoaded, isSignedIn } = useAuth();
-  
-  // Obtener la URL de redirección o usar /dashboard como valor por defecto
-  const redirectUrl = searchParams.get('redirect_url') || '/dashboard';
-  
-  // Si el usuario ya está autenticado, redirigir a la URL de redirección
-  useEffect(() => {
-    if (isLoaded && isSignedIn) {
-      navigate(redirectUrl);
-    }
-  }, [isLoaded, isSignedIn, navigate, redirectUrl]);
-  
-  // Construir la URL de registro con el redirect_url actual
-  const signUpUrl = `/signup${redirectUrl ? `?redirect_url=${encodeURIComponent(redirectUrl)}` : ''}`;
+  const redirectUrl = searchParams.get('redirect_url') || '/';
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,7 +18,7 @@ const SignInPage = () => {
           <span className="font-bold text-xl text-bloom-600 dark:text-bloom-400">Bloom</span>
         </Link>
         <div className="flex items-center gap-4">
-          <Link to={signUpUrl}>
+          <Link to="/signup">
             <button className="bg-[#EE45C0] hover:bg-[#d93aaf] text-white px-6 py-2 rounded-full font-medium transition-colors">
               Get Started
             </button>
@@ -45,15 +30,16 @@ const SignInPage = () => {
           <SignIn 
             appearance={{
               elements: {
-                formButtonPrimary: "bg-[#EE45C0] hover:bg-[#d93aaf] text-white",
+                formButtonPrimary: 
+                  "bg-[#EE45C0] hover:bg-[#d93aaf] text-white",
                 card: "border-0 shadow-xl",
               }
             }}
-            routing="path"
-            path="/signin"
-            signUpUrl={signUpUrl}
+            routing="path" 
+            path="/signin" 
+            redirectUrl={redirectUrl}
+            signUpUrl="/signup"
             afterSignInUrl={redirectUrl}
-            afterSignUpUrl={redirectUrl}
           />
         </div>
       </div>
