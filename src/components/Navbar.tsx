@@ -12,6 +12,25 @@ import {
 } from "@/components/ui/navigation-menu";
 import { SettingsModal } from '@/components/SettingsModal';
 
+// Componente para manejar enlaces protegidos
+const ProtectedLink = ({ to, children, className = '' }: { to: string, children: React.ReactNode, className?: string }) => {
+  const { isSignedIn } = useUser();
+  
+  if (isSignedIn) {
+    return <Link to={to} className={className}>{children}</Link>;
+  }
+  
+  // Si el usuario no ha iniciado sesión, redirigir a la página de inicio de sesión con la URL de retorno
+  return (
+    <Link 
+      to={`/signin?redirect_url=${encodeURIComponent(to)}`} 
+      className={className}
+    >
+      {children}
+    </Link>
+  );
+};
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -38,10 +57,10 @@ export function Navbar() {
                 Home
               </Link>
               
-              <Link to="/tracker" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
+              <ProtectedLink to="/tracker" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
                 <Calendar className="h-4 w-4 mr-1" />
                 Tracker
-              </Link>
+              </ProtectedLink>
               
               <NavigationMenu>
                 <NavigationMenuList>
@@ -51,52 +70,52 @@ export function Navbar() {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <Link to="/products/tracking-cycle" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        <ProtectedLink to="/products/tracking-cycle" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Tracking cycle</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle and symptoms
                           </p>
-                        </Link>
-                        <Link to="/products/getting-pregnant" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/getting-pregnant" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Getting pregnant</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Tools for planning conception
                           </p>
-                        </Link>
-                        <Link to="/products/pregnancy" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/pregnancy" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Pregnancy</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Support through your pregnancy journey
                           </p>
-                        </Link>
-                        <Link to="/products/help-center" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/help-center" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Help Center</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Get answers to your questions
                           </p>
-                        </Link>
-                        <Link to="/products/flo-for-partners" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/flo-for-partners" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Flo for Partners</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Share insights with your partner
                           </p>
-                        </Link>
-                        <Link to="/products/anonymous-mode" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/anonymous-mode" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Anonymous Mode</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Enhanced privacy features
                           </p>
-                        </Link>
-                        <Link to="/products/premium" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/premium" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Flo Premium</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Unlock advanced features
                           </p>
-                        </Link>
-                        <Link to="/products/symptom-checker" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
+                        </ProtectedLink>
+                        <ProtectedLink to="/products/symptom-checker" className="block p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700">
                           <div className="font-medium">Symptom Checker</div>
                           <div className="text-sm text-gray-500 dark:text-gray-400">Track and analyze your symptoms</div>
-                        </Link>
+                        </ProtectedLink>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
