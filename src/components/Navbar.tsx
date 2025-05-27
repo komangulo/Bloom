@@ -21,8 +21,9 @@ export function Navbar() {
   // Función para manejar la navegación a rutas protegidas
   const handleProtectedNavigation = (path: string) => {
     if (!isSignedIn) {
-      // Si el usuario no está autenticado, redirigir a period.click/signup
-      window.location.href = 'https://www.period.click/signup';
+      // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
+      // con la ruta de redirección después del inicio de sesión
+      navigate(`/signin?redirect_url=${encodeURIComponent(path)}`);
     } else {
       // Si está autenticado, navegar normalmente
       navigate(path);
