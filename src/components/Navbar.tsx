@@ -15,23 +15,11 @@ import { SettingsModal } from '@/components/SettingsModal';
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const { isSignedIn, user } = useUser();
-  const navigate = useNavigate();
+  const { user } = useUser();
+  const _navigate = useNavigate();
 
-  // Función para manejar la navegación a rutas protegidas
-  const handleProtectedNavigation = (path: string) => {
-    if (!isSignedIn) {
-      // Si el usuario no está autenticado, redirigir a period.click/signup
-      window.location.href = 'https://www.period.click/signup';
-      return false;
-    }
-    // Si está autenticado, navegar normalmente
-    navigate(path);
-    return true;
-  };
-
-  // Función para manejar la navegación directa
-  const handleDirectNavigation = (path: string) => {
+  // Función para navegar a cualquier página de period.click
+  const navigateToPeriodClick = (path: string) => {
     window.location.href = `https://www.period.click${path}`;
   };
 
@@ -57,7 +45,7 @@ export function Navbar() {
               </Link>
               
               <button 
-                onClick={() => handleProtectedNavigation('/tracker')} 
+                onClick={() => navigateToPeriodClick('/dashboard')} 
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
@@ -67,13 +55,16 @@ export function Navbar() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-bloom-600 dark:hover:text-bloom-400 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                    <NavigationMenuTrigger 
+                      onClick={() => navigateToPeriodClick('/products')}
+                      className="bg-transparent hover:bg-transparent hover:text-bloom-600 dark:hover:text-bloom-400 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    >
                       Products
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/tracking-cycle')}
+                          onClick={() => navigateToPeriodClick('/products/tracking-cycle')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Tracking cycle</div>
@@ -82,7 +73,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/getting-pregnant')}
+                          onClick={() => navigateToPeriodClick('/products/getting-pregnant')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Getting pregnant</div>
@@ -91,7 +82,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/pregnancy')}
+                          onClick={() => navigateToPeriodClick('/products/pregnancy')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy</div>
@@ -100,7 +91,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/help-center')}
+                          onClick={() => navigateToPeriodClick('/products/help-center')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Help Center</div>
@@ -109,7 +100,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/flo-for-partners')}
+                          onClick={() => navigateToPeriodClick('/products/flo-for-partners')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Flo for Partners</div>
@@ -118,7 +109,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/anonymous-mode')}
+                          onClick={() => navigateToPeriodClick('/products/anonymous-mode')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Anonymous Mode</div>
@@ -127,7 +118,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/premium')}
+                          onClick={() => navigateToPeriodClick('/products/premium')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Flo Premium</div>
@@ -136,7 +127,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/products/symptom-checker')}
+                          onClick={() => navigateToPeriodClick('/products/symptom-checker')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Symptom Checker</div>
@@ -151,13 +142,16 @@ export function Navbar() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-bloom-600 dark:hover:text-bloom-400 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                    <NavigationMenuTrigger 
+                      onClick={() => navigateToPeriodClick('/calculators')}
+                      className="bg-transparent hover:bg-transparent hover:text-bloom-600 dark:hover:text-bloom-400 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    >
                       Calculators
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/ovulation')}
+                          onClick={() => navigateToPeriodClick('/calculators/ovulation')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Ovulation calculator</div>
@@ -166,7 +160,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/hcg')}
+                          onClick={() => navigateToPeriodClick('/calculators/hcg')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">hCG calculator</div>
@@ -175,7 +169,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/pregnancy-test')}
+                          onClick={() => navigateToPeriodClick('/calculators/pregnancy-test')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy test calculator</div>
@@ -184,7 +178,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/menstrual-cycle')}
+                          onClick={() => navigateToPeriodClick('/calculators/menstrual-cycle')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Menstrual cycle calculator</div>
@@ -193,7 +187,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/period')}
+                          onClick={() => navigateToPeriodClick('/calculators/period')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Period calculator</div>
@@ -202,7 +196,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/implantation')}
+                          onClick={() => navigateToPeriodClick('/calculators/implantation')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Implantation calculator</div>
@@ -211,7 +205,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/pregnancy-weeks-to-months')}
+                          onClick={() => navigateToPeriodClick('/calculators/pregnancy-weeks-to-months')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy weeks to months</div>
@@ -220,7 +214,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/pregnancy-due-date')}
+                          onClick={() => navigateToPeriodClick('/calculators/pregnancy-due-date')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy due date</div>
@@ -229,7 +223,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/ivf-fet-due-date')}
+                          onClick={() => navigateToPeriodClick('/calculators/ivf-fet-due-date')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">IVF and FET due date</div>
@@ -238,7 +232,7 @@ export function Navbar() {
                           </p>
                         </button>
                         <button 
-                          onClick={() => handleProtectedNavigation('/calculators/due-date-by-ultrasound')}
+                          onClick={() => navigateToPeriodClick('/calculators/due-date-by-ultrasound')}
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Due date by ultrasound</div>
@@ -253,13 +247,13 @@ export function Navbar() {
               </NavigationMenu>
               
               <button 
-                onClick={() => handleDirectNavigation('/premium')}
+                onClick={() => navigateToPeriodClick('/premium')}
                 className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300"
               >
                 Premium
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/tracker')}
+                onClick={() => navigateToPeriodClick('/dashboard')}
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
@@ -273,7 +267,7 @@ export function Navbar() {
           </div>
           
           <div className="hidden md:flex items-center space-x-2">
-            {isSignedIn ? (
+            {user ? (
               <>
                 <Button 
                   variant="ghost" 
@@ -318,14 +312,14 @@ export function Navbar() {
         <div className="md:hidden bg-white dark:bg-slate-900 px-4 pt-2 pb-4 border-b border-border">
           <div className="flex flex-col space-y-2">
             <button 
-              onClick={() => handleDirectNavigation('/')}
+              onClick={() => navigateToPeriodClick('/')}
               className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
             >
               Home
             </button>
             
             <button 
-              onClick={() => handleDirectNavigation('/tracker')} 
+              onClick={() => navigateToPeriodClick('/dashboard')} 
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
             >
               <Calendar className="h-4 w-4 mr-2" />
@@ -334,49 +328,49 @@ export function Navbar() {
 
             <div className="space-y-1">
               <button 
-                onClick={() => handleDirectNavigation('/products/tracking-cycle')}
+                onClick={() => navigateToPeriodClick('/products/tracking-cycle')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Tracking cycle
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/products/getting-pregnant')}
+                onClick={() => navigateToPeriodClick('/products/getting-pregnant')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Getting pregnant
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/products/pregnancy')}
+                onClick={() => navigateToPeriodClick('/products/pregnancy')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/products/help-center')}
+                onClick={() => navigateToPeriodClick('/products/help-center')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Help Center
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/products/flo-for-partners')}
+                onClick={() => navigateToPeriodClick('/products/flo-for-partners')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Flo for Partners
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/premium')}
+                onClick={() => navigateToPeriodClick('/premium')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Premium
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/products/anonymous-mode')}
+                onClick={() => navigateToPeriodClick('/products/anonymous-mode')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Anonymous Mode
               </button>
               <button 
-                onClick={() => handleDirectNavigation('/products/symptom-checker')}
+                onClick={() => navigateToPeriodClick('/products/symptom-checker')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Symptom Checker
@@ -385,61 +379,61 @@ export function Navbar() {
 
             <div className="space-y-1">
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/ovulation')}
+                onClick={() => navigateToPeriodClick('/calculators/ovulation')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Ovulation calculator
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/hcg')}
+                onClick={() => navigateToPeriodClick('/calculators/hcg')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 hCG calculator
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/pregnancy-test')}
+                onClick={() => navigateToPeriodClick('/calculators/pregnancy-test')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy test calculator
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/menstrual-cycle')}
+                onClick={() => navigateToPeriodClick('/calculators/menstrual-cycle')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Menstrual cycle calculator
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/period')}
+                onClick={() => navigateToPeriodClick('/calculators/period')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Period calculator
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/implantation')}
+                onClick={() => navigateToPeriodClick('/calculators/implantation')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Implantation calculator
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/pregnancy-weeks-to-months')}
+                onClick={() => navigateToPeriodClick('/calculators/pregnancy-weeks-to-months')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy weeks to months
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/pregnancy-due-date')}
+                onClick={() => navigateToPeriodClick('/calculators/pregnancy-due-date')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy due date
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/ivf-fet-due-date')}
+                onClick={() => navigateToPeriodClick('/calculators/ivf-fet-due-date')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 IVF and FET due date
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/due-date-by-ultrasound')}
+                onClick={() => navigateToPeriodClick('/calculators/due-date-by-ultrasound')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Due date by ultrasound
@@ -447,7 +441,7 @@ export function Navbar() {
             </div>
             
             <button 
-              onClick={() => handleProtectedNavigation('/premium')}
+              onClick={() => navigateToPeriodClick('/profile')}
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-bloom-600 dark:text-bloom-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-700 dark:hover:text-bloom-300"
             >
               Premium
