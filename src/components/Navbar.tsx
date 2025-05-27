@@ -1,8 +1,7 @@
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Calendar, User, Settings, Heart, BookOpen } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useUser, SignInButton, SignUpButton } from '@clerk/clerk-react';
+import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -12,13 +11,40 @@ import {
 } from "@/components/ui/navigation-menu";
 import { SettingsModal } from '@/components/SettingsModal';
 
+// Componente para enlaces externos que evita la navegación de Clerk
+const ExternalLink = ({ 
+  href, 
+  className, 
+  children,
+  onClick
+}: { 
+  href: string; 
+  className?: string; 
+  children: React.ReactNode;
+  onClick?: (e: React.MouseEvent) => void;
+}) => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onClick) onClick(e);
+    window.location.href = href;
+  };
+
+  return (
+    <a 
+      href={href} 
+      className={className}
+      onClick={handleClick}
+    >
+      {children}
+    </a>
+  );
+};
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  // No necesitamos useNavigate ya que usamos enlaces directos
-  const { user } = useUser();
-
-  // No necesitamos manejadores de clic, usaremos enlaces directos
+  // URL base para todos los enlaces externos
+  const baseUrl = 'https://www.period.click/signup';
 
   return (
     <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-border sticky top-0 z-40">
@@ -51,85 +77,85 @@ export function Navbar() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <a 
-                      href="https://www.period.click/signup"
+                    <ExternalLink 
+                      href={baseUrl}
                       className="inline-flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400"
                     >
                       Products
                       <span className="ml-1">▼</span>
-                    </a>
+                    </ExternalLink>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Tracking cycle</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle and symptoms
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Getting pregnant</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Tools for planning conception
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Pregnancy</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Support through your pregnancy journey
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Help Center</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Get answers to your questions
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Flo for Partners</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Share insights with your partner
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Anonymous Mode</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Enhanced privacy features
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Flo Premium</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Unlock advanced features
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Symptom Checker</div>
                           <div className="text-sm text-gray-500 dark:text-gray-400">Track and analyze your symptoms</div>
-                        </a>
+                        </ExternalLink>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -139,131 +165,131 @@ export function Navbar() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <a 
-                      href="https://www.period.click/signup"
+                    <ExternalLink 
+                      href={baseUrl}
                       className="inline-flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400"
                     >
                       Calculators
                       <span className="ml-1">▼</span>
-                    </a>
+                    </ExternalLink>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Ovulation calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Find your most fertile days
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">hCG calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate hCG levels during pregnancy
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Pregnancy test calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             When to take a pregnancy test
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Menstrual cycle calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Period calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Predict your next period
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Implantation calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate when implantation may occur
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Pregnancy weeks to months</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Convert pregnancy weeks to months
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Pregnancy due date</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate your estimated due date
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">IVF and FET due date</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate due date for IVF pregnancies
                           </p>
-                        </a>
-                        <a 
-                          href="https://www.period.click/signup"
-                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+                        </ExternalLink>
+                        <ExternalLink 
+                          href={baseUrl}
+                          className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700 block"
                         >
                           <div className="font-medium">Due date by ultrasound</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Adjust due date based on ultrasound
                           </p>
-                        </a>
+                        </ExternalLink>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
               
-              <a 
-                href="https://www.period.click/signup"
+              <ExternalLink 
+                href={baseUrl}
                 className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300"
               >
                 Premium
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
                 Tracker
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <BookOpen className="h-4 w-4 mr-1" />
                 Blog
-              </a>
+              </ExternalLink>
             </div>
           </div>
           
@@ -312,141 +338,141 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-slate-900 px-4 pt-2 pb-4 border-b border-border">
           <div className="flex flex-col space-y-2">
-            <a 
-              href="https://www.period.click/signup"
+            <ExternalLink 
+              href={baseUrl}
               className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
             >
               Home
-            </a>
+            </ExternalLink>
             
-            <a 
-              href="https://www.period.click/signup"
+            <ExternalLink 
+              href={baseUrl}
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
             >
               <Calendar className="h-4 w-4 mr-2" />
               Tracker
-            </a>
+            </ExternalLink>
 
             <div className="space-y-1">
-              <a 
-                href="https://www.period.click/signup"
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Tracking cycle
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Getting pregnant
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Help Center
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Flo for Partners
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Premium
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Anonymous Mode
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Symptom Checker
-              </a>
+              </ExternalLink>
             </div>
 
             <div className="space-y-1">
-              <a 
-                href="https://www.period.click/signup"
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Ovulation calculator
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 hCG calculator
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy test calculator
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Menstrual cycle calculator
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Period calculator
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Implantation calculator
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy weeks to months
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy due date
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 IVF and FET due date
-              </a>
-              <a 
-                href="https://www.period.click/signup"
+              </ExternalLink>
+              <ExternalLink 
+                href={baseUrl}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Due date by ultrasound
-              </a>
+              </ExternalLink>
             </div>
             
-            <a 
-              href="https://www.period.click/signup"
+            <ExternalLink 
+              href={baseUrl}
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-bloom-600 dark:text-bloom-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-700 dark:hover:text-bloom-300"
             >
               Premium
-            </a>
+            </ExternalLink>
             <Link to="/blog" className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
               <BookOpen className="h-4 w-4 mr-2" />
               Blog
