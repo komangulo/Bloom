@@ -24,7 +24,7 @@ import ManagingPMS from "./pages/blog/managing-pms";
 import NutritionHormonalHealth from "./pages/blog/nutrition-hormonal-health";
 import ExerciseMenstrualCycle from "./pages/blog/exercise-menstrual-cycle";
 import MentalHealthMenstrualCycle from "./pages/blog/mental-health-menstrual-cycle";
-import { withAuth } from "./components/auth/withAuth";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // Products pages
 import TrackingCycle from "./pages/products/TrackingCycle";
@@ -64,14 +64,6 @@ const MainLayout = () => (
   </>
 );
 
-// Componente de layout protegido
-const ProtectedLayout = withAuth(({ children }: { children: React.ReactNode }) => {
-  return <>{children}</>;
-});
-
-// Establecer un nombre de visualización para facilitar la depuración
-ProtectedLayout.displayName = 'ProtectedLayout';
-
 const AppContent = () => {
   return (
     <BrowserRouter>
@@ -103,14 +95,18 @@ const AppContent = () => {
           </Route>
           
           {/* Rutas protegidas */}
-          <Route element={
-            <ProtectedLayout redirectPath="/signin">
-              <Outlet />
-            </ProtectedLayout>
-          }>
+          <Route element={<ProtectedRoute requirePremium={false}>
+            <Outlet />
+          </ProtectedRoute>}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/tracker" element={<Tracker />} />
-            <Route path="/admin/users" element={<AdminUsers />} />
+            
+            {/* Ruta de administración */}
+            <Route path="/admin/users" element={
+              <ProtectedRoute requirePremium={true}>
+                <AdminUsers />
+              </ProtectedRoute>
+            } />
             
             {/* Rutas de productos protegidas */}
             <Route path="/products/tracking-cycle" element={<TrackingCycle />} />
@@ -123,16 +119,19 @@ const AppContent = () => {
             <Route path="/products/symptom-checker" element={<SymptomChecker />} />
             
             {/* Rutas de calculadoras protegidas */}
-            <Route path="/calculators/ovulation" element={<OvulationCalculator />} />
-            <Route path="/calculators/hcg" element={<HcgCalculator />} />
-            <Route path="/calculators/pregnancy-test" element={<PregnancyTestCalculator />} />
-            <Route path="/calculators/menstrual-cycle" element={<MenstrualCycleCalculator />} />
-            <Route path="/calculators/period" element={<PeriodCalculator />} />
-            <Route path="/calculators/implantation" element={<ImplantationCalculator />} />
-            <Route path="/calculators/weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
-            <Route path="/calculators/due-date" element={<PregnancyDueDateCalculator />} />
-            <Route path="/calculators/ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
-            <Route path="/calculators/due-date-ultrasound" element={<DueDateCalculatorByUltrasound />} />
+            <Route path="/calculators">
+              <Route path="ovulation" element={<OvulationCalculator />} />
+              <Route path="hcg" element={<HcgCalculator />} />
+              <Route path="pregnancy-test" element={<PregnancyTestCalculator />} />
+              <Route path="menstrual-cycle" element={<MenstrualCycleCalculator />} />
+              <Route path="period" element={<PeriodCalculator />} />
+              <Route path="implantation" element={<ImplantationCalculator />} />
+              <Route path="pregnancy-weeks-to-months" element={<PregnancyWeeksToMonthsCalculator />} />
+              <Route path="pregnancy-due-date" element={<PregnancyDueDateCalculator />} />
+              <Route path="ivf-fet-due-date" element={<IvfFetDueDateCalculator />} />
+              <Route path="due-date-by-ultrasound" element={<DueDateCalculatorByUltrasound />} />
+            </Route>
+          
           </Route>
           
           {/* Ruta 404 */}
