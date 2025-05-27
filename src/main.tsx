@@ -32,8 +32,23 @@ const ClerkWithNavigate = ({ children }: { children: React.ReactNode }) => {
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY}
       appearance={clerkAppearance}
-      routerPush={(to) => window.location.assign(to)}
-      routerReplace={(to) => window.location.replace(to)}
+      routerPush={(to: string) => {
+        // Redirect all navigation to signup if not authenticated
+        if (to.startsWith('/sign-in') || to.startsWith('/sign-up')) {
+          window.location.href = 'https://www.period.click/signup';
+          return Promise.resolve(false);
+        }
+        window.location.href = to;
+        return Promise.resolve(false);
+      }}
+      routerReplace={(to: string) => {
+        window.location.href = to;
+        return Promise.resolve(false);
+      }}
+      signInUrl="https://www.period.click/signup"
+      signUpUrl="https://www.period.click/signup"
+      afterSignInUrl="https://www.period.click/dashboard"
+      afterSignUpUrl="https://www.period.click/dashboard"
     >
       {children}
     </ClerkProvider>
