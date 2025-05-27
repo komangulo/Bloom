@@ -21,9 +21,8 @@ export function Navbar() {
   // Función para manejar la navegación a rutas protegidas
   const handleProtectedNavigation = (path: string) => {
     if (!isSignedIn) {
-      // Si el usuario no está autenticado, redirigir a la página de inicio de sesión
-      // con la ruta de redirección después del inicio de sesión
-      navigate(`/signin?redirect_url=${encodeURIComponent(path)}`);
+      // Si el usuario no está autenticado, redirigir a period.click/signup
+      window.location.href = 'https://www.period.click/signup';
     } else {
       // Si está autenticado, navegar normalmente
       navigate(path);
@@ -248,13 +247,13 @@ export function Navbar() {
               </NavigationMenu>
               
               <button 
-                onClick={() => handleProtectedNavigation('/premium')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/premium')}
                 className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300"
               >
                 Premium
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/tracker')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/tracker')}
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
@@ -317,7 +316,7 @@ export function Navbar() {
             </Link>
             
             <button 
-              onClick={() => handleProtectedNavigation('/tracker')}
+              onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/tracker')} 
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
             >
               <Calendar className="h-4 w-4 mr-2" />
@@ -326,31 +325,31 @@ export function Navbar() {
 
             <div className="space-y-1">
               <button 
-                onClick={() => handleProtectedNavigation('/products/tracking-cycle')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/tracking-cycle')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Tracking cycle
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/products/getting-pregnant')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/getting-pregnant')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Getting pregnant
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/products/pregnancy')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/pregnancy')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/products/help-center')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/help-center')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Help Center
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/products/flo-for-partners')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/flo-for-partners')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Flo for Partners
@@ -377,61 +376,61 @@ export function Navbar() {
 
             <div className="space-y-1">
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/ovulation')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/ovulation')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Ovulation calculator
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/hcg')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/hcg')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 hCG calculator
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/pregnancy-test')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/pregnancy-test')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy test calculator
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/menstrual-cycle')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/menstrual-cycle')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Menstrual cycle calculator
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/period')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/period')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Period calculator
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/implantation')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/implantation')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Implantation calculator
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/pregnancy-weeks-to-months')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/pregnancy-weeks-to-months')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy weeks to months
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/pregnancy-due-date')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/pregnancy-due-date')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy due date
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/ivf-fet-due-date')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/ivf-fet-due-date')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 IVF and FET due date
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/calculators/due-date-by-ultrasound')}
+                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : navigate('/calculators/due-date-by-ultrasound')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Due date by ultrasound
