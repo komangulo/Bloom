@@ -1,11 +1,8 @@
 
 import { SignIn } from "@clerk/clerk-react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignInPage = () => {
-  const [searchParams] = useSearchParams();
-  const redirectUrl = searchParams.get('redirect_url') || '/';
-  
   return (
     <div className="min-h-screen flex flex-col">
       <header className="px-4 py-3 flex items-center justify-between border-b">
@@ -37,9 +34,7 @@ const SignInPage = () => {
             }}
             routing="path" 
             path="/signin" 
-            redirectUrl={redirectUrl}
-            signUpUrl="/signup"
-            afterSignInUrl={redirectUrl}
+            redirectUrl="/dashboard"
           />
         </div>
       </div>
