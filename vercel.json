@@ -9,38 +9,6 @@
       }
     }
   ],
-  "redirects": [
-    {
-      "source": "/sign-in",
-      "destination": "/signup",
-      "permanent": true
-    },
-    {
-      "source": "/sign-up",
-      "destination": "/signup",
-      "permanent": true
-    },
-    {
-      "source": "/signin",
-      "destination": "/signup",
-      "permanent": true
-    },
-    {
-      "source": "/premium",
-      "destination": "/signup",
-      "permanent": true
-    },
-    {
-      "source": "/calculators/(.*)",
-      "destination": "/signup",
-      "permanent": true
-    },
-    {
-      "source": "/dashboard",
-      "destination": "/signup",
-      "permanent": true
-    }
-  ],
   "routes": [
     {
       "src": "^/static/(.*)",
