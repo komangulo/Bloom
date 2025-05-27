@@ -7,16 +7,16 @@ import { useUser } from "@clerk/clerk-react";
 const SignInPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
   
-  // Obtener la URL de redirección de los parámetros de búsqueda o usar la raíz
-  const redirectUrl = searchParams.get('redirect_url') || '/';
+  // Obtener la URL de redirección de los parámetros de búsqueda o usar el dashboard
+  const redirectUrl = searchParams.get('redirect_url') || '/dashboard';
   
   // Si el usuario ya está autenticado, redirigir a la página de destino
   useEffect(() => {
     if (isSignedIn) {
       // Asegurarse de que la URL de redirección sea segura y relativa
-      const safeRedirect = redirectUrl.startsWith('/') ? redirectUrl : '/';
+      const safeRedirect = redirectUrl.startsWith('/') ? redirectUrl : '/dashboard';
       navigate(safeRedirect, { replace: true });
     }
   }, [isSignedIn, navigate, redirectUrl]);
