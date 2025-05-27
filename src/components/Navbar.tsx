@@ -15,13 +15,10 @@ import { SettingsModal } from '@/components/SettingsModal';
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  // No necesitamos useNavigate ya que usamos enlaces directos
   const { user } = useUser();
-  const _navigate = useNavigate();
 
-  // Función para navegar a la página de registro
-  const navigateToSignup = () => {
-    window.location.href = 'https://www.period.click/signup';
-  };
+  // No necesitamos manejadores de clic, usaremos enlaces directos
 
   return (
     <nav className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-border sticky top-0 z-40">
@@ -43,95 +40,96 @@ export function Navbar() {
               <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
                 Home
               </Link>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center"
+              <a 
+                href="https://www.period.click/signup"
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
-                <Calendar className="h-4 w-4 mr-2" />
+                <Calendar className="h-4 w-4 mr-1" />
                 Tracker
-              </button>
+              </a>
               
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger 
-                      onClick={navigateToSignup}
-                      className="bg-transparent hover:bg-transparent hover:text-bloom-600 dark:hover:text-bloom-400 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    <a 
+                      href="https://www.period.click/signup"
+                      className="inline-flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400"
                     >
                       Products
-                    </NavigationMenuTrigger>
+                      <span className="ml-1">▼</span>
+                    </a>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/tracking-cycle')}
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Tracking cycle</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle and symptoms
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/getting-pregnant')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Getting pregnant</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Tools for planning conception
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/pregnancy')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Support through your pregnancy journey
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/help-center')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Help Center</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Get answers to your questions
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/flo-for-partners')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Flo for Partners</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Share insights with your partner
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/anonymous-mode')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Anonymous Mode</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Enhanced privacy features
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/premium')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Flo Premium</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Unlock advanced features
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/products/symptom-checker')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Symptom Checker</div>
                           <div className="text-sm text-gray-500 dark:text-gray-400">Track and analyze your symptoms</div>
-                        </button>
+                        </a>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
@@ -141,127 +139,131 @@ export function Navbar() {
               <NavigationMenu>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger 
-                      onClick={navigateToSignup}
-                      className="bg-transparent hover:bg-transparent hover:text-bloom-600 dark:hover:text-bloom-400 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    <a 
+                      href="https://www.period.click/signup"
+                      className="inline-flex items-center justify-between w-full px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400"
                     >
                       Calculators
-                    </NavigationMenuTrigger>
+                      <span className="ml-1">▼</span>
+                    </a>
                     <NavigationMenuContent>
                       <div className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/ovulation')}
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Ovulation calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Find your most fertile days
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/hcg')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">hCG calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate hCG levels during pregnancy
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/pregnancy-test')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy test calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             When to take a pregnancy test
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/menstrual-cycle')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Menstrual cycle calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Track your menstrual cycle
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/period')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Period calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Predict your next period
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/implantation')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Implantation calculator</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate when implantation may occur
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/pregnancy-weeks-to-months')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy weeks to months</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Convert pregnancy weeks to months
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/pregnancy-due-date')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Pregnancy due date</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate your estimated due date
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/ivf-fet-due-date')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">IVF and FET due date</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Calculate due date for IVF pregnancies
                           </p>
-                        </button>
-                        <button 
-                          onClick={() => navigateToPeriodClick('/calculators/due-date-by-ultrasound')}
+                        </a>
+                        <a 
+                          href="https://www.period.click/signup"
                           className="w-full text-left p-3 space-y-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
                         >
                           <div className="font-medium">Due date by ultrasound</div>
                           <p className="text-sm leading-snug text-muted-foreground">
                             Adjust due date based on ultrasound
                           </p>
-                        </button>
+                        </a>
                       </div>
                     </NavigationMenuContent>
                   </NavigationMenuItem>
                 </NavigationMenuList>
               </NavigationMenu>
               
-              <button 
-                onClick={navigateToSignup}
+              <a 
+                href="https://www.period.click/signup"
                 className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300"
               >
                 Premium
-              </button>
-              <button 
-                onClick={() => navigateToPeriodClick('/dashboard')}
+              </a>
+              <a 
+                href="https://www.period.click/signup"
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
                 Tracker
-              </button>
-              <Link to="/blog" className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
+              >
                 <BookOpen className="h-4 w-4 mr-1" />
                 Blog
-              </Link>
+              </a>
             </div>
           </div>
           
@@ -310,141 +312,141 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-slate-900 px-4 pt-2 pb-4 border-b border-border">
           <div className="flex flex-col space-y-2">
-            <button 
-              onClick={() => navigateToPeriodClick('/')}
+            <a 
+              href="https://www.period.click/signup"
               className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
             >
               Home
-            </button>
+            </a>
             
-            <button 
-              onClick={navigateToSignup}
+            <a 
+              href="https://www.period.click/signup"
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
             >
               <Calendar className="h-4 w-4 mr-2" />
               Tracker
-            </button>
+            </a>
 
             <div className="space-y-1">
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Tracking cycle
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Getting pregnant
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Help Center
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Flo for Partners
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Premium
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Anonymous Mode
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Symptom Checker
-              </button>
+              </a>
             </div>
 
             <div className="space-y-1">
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Ovulation calculator
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 hCG calculator
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy test calculator
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Menstrual cycle calculator
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Period calculator
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Implantation calculator
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy weeks to months
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Pregnancy due date
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 IVF and FET due date
-              </button>
-              <button 
-                onClick={navigateToSignup}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              </a>
+              <a 
+                href="https://www.period.click/signup"
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 block"
               >
                 Due date by ultrasound
-              </button>
+              </a>
             </div>
             
-            <button 
-              onClick={navigateToSignup}
+            <a 
+              href="https://www.period.click/signup"
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-bloom-600 dark:text-bloom-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-700 dark:hover:text-bloom-300"
             >
               Premium
-            </button>
+            </a>
             <Link to="/blog" className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center">
               <BookOpen className="h-4 w-4 mr-2" />
               Blog
