@@ -66,13 +66,13 @@ export function Navbar() {
               <Link to="/" className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
                 Home
               </Link>
-              <a 
-                href="https://www.period.click/signup"
+              <ExternalLink 
+                href={baseUrl}
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
                 Tracker
-              </a>
+              </ExternalLink>
               
               <NavigationMenu>
                 <NavigationMenuList>
