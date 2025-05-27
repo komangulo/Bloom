@@ -9,6 +9,43 @@
       }
     }
   ],
+  "redirects": [
+    {
+      "source": "/sign-in",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    },
+    {
+      "source": "/sign-up",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    },
+    {
+      "source": "/signin",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    },
+    {
+      "source": "/signup",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    },
+    {
+      "source": "/premium",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    },
+    {
+      "source": "/calculators/(.*)",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    },
+    {
+      "source": "/dashboard",
+      "destination": "https://www.period.click/signup",
+      "permanent": true
+    }
+  ],
   "routes": [
     {
       "src": "^/static/(.*)",
