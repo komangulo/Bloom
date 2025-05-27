@@ -23,10 +23,16 @@ export function Navbar() {
     if (!isSignedIn) {
       // Si el usuario no está autenticado, redirigir a period.click/signup
       window.location.href = 'https://www.period.click/signup';
-    } else {
-      // Si está autenticado, navegar normalmente
-      navigate(path);
+      return false;
     }
+    // Si está autenticado, navegar normalmente
+    navigate(path);
+    return true;
+  };
+
+  // Función para manejar la navegación directa
+  const handleDirectNavigation = (path: string) => {
+    window.location.href = `https://www.period.click${path}`;
   };
 
   return (
@@ -247,13 +253,13 @@ export function Navbar() {
               </NavigationMenu>
               
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/premium')}
+                onClick={() => handleDirectNavigation('/premium')}
                 className="px-3 py-2 text-sm font-medium text-bloom-600 dark:text-bloom-400 hover:text-bloom-700 dark:hover:text-bloom-300"
               >
                 Premium
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/tracker')}
+                onClick={() => handleDirectNavigation('/tracker')}
                 className="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
               >
                 <Calendar className="h-4 w-4 mr-1" />
@@ -311,12 +317,15 @@ export function Navbar() {
       {isOpen && (
         <div className="md:hidden bg-white dark:bg-slate-900 px-4 pt-2 pb-4 border-b border-border">
           <div className="flex flex-col space-y-2">
-            <Link to="/" className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400">
+            <button 
+              onClick={() => handleDirectNavigation('/')}
+              className="px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+            >
               Home
-            </Link>
+            </button>
             
             <button 
-              onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/tracker')} 
+              onClick={() => handleDirectNavigation('/tracker')} 
               className="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400 flex items-center"
             >
               <Calendar className="h-4 w-4 mr-2" />
@@ -325,49 +334,49 @@ export function Navbar() {
 
             <div className="space-y-1">
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/tracking-cycle')}
+                onClick={() => handleDirectNavigation('/products/tracking-cycle')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Tracking cycle
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/getting-pregnant')}
+                onClick={() => handleDirectNavigation('/products/getting-pregnant')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Getting pregnant
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/pregnancy')}
+                onClick={() => handleDirectNavigation('/products/pregnancy')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Pregnancy
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/help-center')}
+                onClick={() => handleDirectNavigation('/products/help-center')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Help Center
               </button>
               <button 
-                onClick={() => !isSignedIn ? window.location.href = 'https://www.period.click/signup' : handleProtectedNavigation('/products/flo-for-partners')}
+                onClick={() => handleDirectNavigation('/products/flo-for-partners')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Flo for Partners
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/products/anonymous-mode')}
+                onClick={() => handleDirectNavigation('/premium')}
+                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
+              >
+                Premium
+              </button>
+              <button 
+                onClick={() => handleDirectNavigation('/products/anonymous-mode')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Anonymous Mode
               </button>
               <button 
-                onClick={() => handleProtectedNavigation('/products/premium')}
-                className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
-              >
-                Flo Premium
-              </button>
-              <button 
-                onClick={() => handleProtectedNavigation('/products/symptom-checker')}
+                onClick={() => handleDirectNavigation('/products/symptom-checker')}
                 className="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-bloom-600 dark:hover:text-bloom-400"
               >
                 Symptom Checker
